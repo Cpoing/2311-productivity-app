@@ -29,6 +29,7 @@ public class App extends Application {
         root.setCenter(toDoList);
         root.setBottom(newItemField);
         root.setRight(addButton);
+        
 
         Scene scene = new Scene(root, 300, 200);
         primaryStage.setTitle("To-Do List App");
@@ -40,7 +41,16 @@ public class App extends Application {
         String newItemText = newItemField.getText().trim();
         if (!newItemText.isEmpty()) {
             CheckBox newItemCheckbox = new CheckBox(newItemText);
-            toDoList.getItems().add(newItemCheckbox);
+
+            int firstCheckedIndex = 0;
+            for (CheckBox checkbox : toDoList.getItems()) {
+                if (checkbox.isSelected()) {
+                    break;
+                }
+                else firstCheckedIndex++;
+            }
+
+            toDoList.getItems().add(firstCheckedIndex, newItemCheckbox);
             newItemField.clear();
         }
     }
