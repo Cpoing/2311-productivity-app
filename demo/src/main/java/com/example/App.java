@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.Components.ScoreCounter;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -26,12 +29,15 @@ public class App extends Application {
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addNewItem());
 
+        ScoreCounter score = new ScoreCounter();
+        Text scoreCount = new Text("Your Score: " + score.getCounter());
+
         root.setCenter(toDoList);
         root.setBottom(newItemField);
         root.setRight(addButton);
-        
+        root.setLeft(scoreCount);
 
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 600, 400);
         primaryStage.setTitle("To-Do List App");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -46,8 +52,8 @@ public class App extends Application {
             for (CheckBox checkbox : toDoList.getItems()) {
                 if (checkbox.isSelected()) {
                     break;
-                }
-                else firstCheckedIndex++;
+                } else
+                    firstCheckedIndex++;
             }
 
             toDoList.getItems().add(firstCheckedIndex, newItemCheckbox);
