@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import com.example.Components.User;
+import com.example.Components.login;
+
 class loginTest {
 
 	
