@@ -57,4 +57,13 @@ class ScoreCounterTest {
 		sc.subtractScore("High");
 		assertEquals(300, sc.getCounter());
 	}
+
+    @Test
+	void test_8() {
+		ScoreCounter sc = new ScoreCounter();
+		sc.addScore("High");
+		sc.addScore("Low");
+		sc.subtractScore("High");
+		assertEquals(100, sc.getCounter());
+	}
 }
