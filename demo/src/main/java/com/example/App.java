@@ -76,7 +76,7 @@ public class App extends Application {
 
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
-        DueDate date = new DueDate(dueDate.getText()); 
+        DueDate date = new DueDate(dueDate.getText().trim()); 
         String priorityText = itemPrio.getText().trim();
        
         Priority prio = new Priority(priorityText);

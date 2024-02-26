@@ -1,28 +1,28 @@
-package com.example.test;
+package test;
+import com.example.Components.Priority;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-import org.junit.jupiter.api.Test;
 
-
-class Prioritytest {
+public class Prioritytest {
 
     @Test
-    void testValidPriority() {
+    public void testValidPriority() {
         String validPriority = "Medium";
         Priority priority = new Priority(validPriority);
         assertTrue(priority.isValidPriority(validPriority));
     }
 
     @Test
-    void testInvalidPriority() {
+    public void testInvalidPriority() {
         String invalidPriority = "Invalid";
         Priority priority = new Priority("");
         assertFalse(priority.isValidPriority(invalidPriority));
     }
 
     @Test
-    void testCaseInsensitivePriority() {
+    public void testCaseInsensitivePriority() {
         String caseInsensitivePriority = "hIgH";
         Priority priority = new Priority("");
         assertTrue(priority.isValidPriority(caseInsensitivePriority));

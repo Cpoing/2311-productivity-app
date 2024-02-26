@@ -1,17 +1,16 @@
-package com.example.test;
+package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 import com.example.Components.User;
 import com.example.Components.login;
 
-class loginTest {
+public class loginTest {
 
 	
 	@Test
-	void test_1() {
+	public void test_1() {
 		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("123", "thisisanapple");
@@ -20,7 +19,7 @@ class loginTest {
 	}
 	
 	@Test
-	void test_2() {
+	public void test_2() {
 		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("thisis", "thisisanapple");
@@ -37,7 +36,7 @@ class loginTest {
 	}
 	
 	@Test
-	void test_3() {
+	public void test_3() {
 		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("thisis", "thisisanapple");
@@ -54,7 +53,7 @@ class loginTest {
 	}
 	
 	@Test
-	void test_4() {
+	public void test_4() {
 		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("12", "thisisanapple");
@@ -63,7 +62,7 @@ class loginTest {
 	}
 	
 	@Test
-	void test_5() {
+	public void test_5() {
 		login log = new login();
 		User user = new User("123", "thisispineapple");
 		assertThrows(IllegalArgumentException.class, ()-> log.loginTo("123", "thisispineapple"));

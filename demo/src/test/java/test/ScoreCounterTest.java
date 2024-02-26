@@ -1,56 +1,55 @@
-package main.java.com.example.test;
+package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.Test;
 import com.example.Components.ScoreCounter;
 
-class ScoreCounterTest {
+public class ScoreCounterTest {
 
 	@Test
-	void test_1() {
+	public void test_1() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.addScore("Low");
 		assertEquals(100, sc.getCounter());
 	}
 	
 	@Test
-	void test_2() {
+	public void test_2() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.addScore("Medium");
 		assertEquals(300, sc.getCounter());
 	}
 	
 	@Test
-	void test_3() {
+	public void test_3() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.addScore("High");
 		assertEquals(500, sc.getCounter());
 	}
 	
 	@Test
-	void test_4() {
+	public void test_4() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.subtractScore("Low");
 		assertEquals(-100, sc.getCounter());
 	}
 	
 	@Test
-	void test_5() {
+	public void test_5() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.subtractScore("Medium");
 		assertEquals(-300, sc.getCounter());
 	}
 	
 	@Test
-	void test_6() {
+	public void test_6() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.subtractScore("High");
 		assertEquals(-500, sc.getCounter());
 	}
 	
 	@Test
-	void test_7() {
+	public void test_7() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.addScore("High");
 		sc.addScore("Medium");
@@ -59,7 +58,7 @@ class ScoreCounterTest {
 	}
 
     @Test
-	void test_8() {
+	public void test_8() {
 		ScoreCounter sc = new ScoreCounter();
 		sc.addScore("High");
 		sc.addScore("Low");
