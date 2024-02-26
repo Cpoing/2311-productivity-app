@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class App extends Application {
+public class App {
 	
 	/**
 	 * toDoList is a Checkbox list of tasks needed to be completed.
@@ -40,8 +40,7 @@ public class App extends Application {
     private ScoreCounter score;
     private TimerDisplay disp;
     
-    @Override
-    public void start(Stage primaryStage) {
+    public App(Stage stage) {
     	// root is the Root Border Pane
         BorderPane root = new BorderPane();
         // bottom is border pane for the bottom portion so that elements can be aligned at top-right, top-left, bottom-left, bottom-right
@@ -87,9 +86,9 @@ public class App extends Application {
         bottom.setLeft(inputFields);
 
         Scene scene = new Scene(root, 600, 400);
-        primaryStage.setTitle("To-Do List App");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setTitle("To-Do List App");
+        stage.setScene(scene);
+        stage.show();
     }
     
    /* private void openPomodoroTimer(Stage timerStage) {
@@ -167,10 +166,6 @@ public class App extends Application {
             dueDate.clear();
             itemPrio.clear();
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     /**
