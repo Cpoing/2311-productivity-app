@@ -11,20 +11,8 @@ public class PomodoroTimerTest {
 		@Test 
 		public void test_seconds_1() {
 			
-			long startSysTime = System.currentTimeMillis();
-			int timeInSeconds = 0, timeInMinutes = 0;
-			for(int i = 0; i < 59; i++){
-			     try{
-			        Thread.sleep(1000);
-			    } catch(InterruptedException e){
-			        Thread.currentThread().interrupt();
-			    }
-			    long endSysTime = System.currentTimeMillis();
-			    long runTime = endSysTime - startSysTime;
-			    timeInSeconds = ((int)runTime / 1000);
-			    timeInMinutes = timeInSeconds / 60;
-			}
-			
+			int timeInSeconds = 59;
+			int timeInMinutes = 0;
 			PomodoroTimer timer = new PomodoroTimer();
 			for(int i = 0; i < 59; i++) {
 				timer.waitASecond();
@@ -38,19 +26,8 @@ public class PomodoroTimerTest {
 		@Test
 		public void test_seconds_2() {
 			
-			long startSysTime = System.currentTimeMillis();
-			int timeInSeconds = 0, timeInMinutes = 0;
-			for(int i = 0; i < 60; i++){
-			     try{
-			        Thread.sleep(1000);
-			    } catch(InterruptedException e){
-			        Thread.currentThread().interrupt();
-			    }
-			    long endSysTime = System.currentTimeMillis();
-			    long runTime = endSysTime - startSysTime;
-			    timeInSeconds = ((int)runTime / 1000);
-			    timeInMinutes = timeInSeconds / 60;
-			}
+			int timeInSeconds = 0;
+			int timeInMinutes = 1;
 			
 			PomodoroTimer timer = new PomodoroTimer();
 			for(int i = 0; i < 60; i++) {
@@ -65,19 +42,8 @@ public class PomodoroTimerTest {
 		@Test
 		public void test_minutes_1() {
 			
-			long startSysTime = System.currentTimeMillis();
-			int timeInSeconds = 0, timeInMinutes = 0;
-			for(int i = 0; i < 59; i++){
-			     try{
-			        Thread.sleep(1000);
-			    } catch(InterruptedException e){
-			        Thread.currentThread().interrupt();
-			    }
-			    long endSysTime = System.currentTimeMillis();
-			    long runTime = endSysTime - startSysTime;
-			    timeInSeconds = ((int)runTime / 1000);
-			    timeInMinutes = timeInSeconds / 60;
-			}
+			int timeInSeconds = 59;
+			int timeInMinutes = 0;
 			
 			PomodoroTimer timer = new PomodoroTimer();
 			for(int i = 0; i < 59; i++) {
@@ -88,21 +54,11 @@ public class PomodoroTimerTest {
 			assertEquals(timeInMinutes, minutes);
 		}
 		// Test minutes value at 1:00
+		@Test
 		public void test_minutes_2() {
 			
-			long startSysTime = System.currentTimeMillis();
-			int timeInSeconds = 0, timeInMinutes = 0;
-			for(int i = 0; i < 60; i++){
-			     try{
-			        Thread.sleep(1000);
-			    } catch(InterruptedException e){
-			        Thread.currentThread().interrupt();
-			    }
-			    long endSysTime = System.currentTimeMillis();
-			    long runTime = endSysTime - startSysTime;
-			    timeInSeconds = ((int)runTime / 1000);
-			    timeInMinutes = timeInSeconds / 60;
-			}
+			int timeInSeconds = 0;
+			int timeInMinutes = 1;
 			
 			PomodoroTimer timer = new PomodoroTimer();
 			for(int i = 0; i < 60; i++) {
