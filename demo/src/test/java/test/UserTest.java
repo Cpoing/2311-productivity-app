@@ -1,26 +1,25 @@
-package com.example.test;
+package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 import com.example.Components.User;
 
-class UserTest {
+public class UserTest {
 	
 	@Test
-	void test_1() {
+	public void test_1() {
 		assertThrows(IllegalArgumentException.class, ()-> new User("12345", "lessthan1"));
 	}
 	
 	@Test
-	void test_2() {
+	public void test_2() {
 		User user = new User("12345", "Morethan101");
 		assertEquals("12345", user.getUsername());
 	}
 	
 	@Test
-	void test_3() {
+	public void test_3() {
 		User user = new User("12345", "Morethan101");
 		assertEquals("Morethan101", user.getPassword());
 	}
