@@ -3,7 +3,6 @@ package com.example;
 import com.example.Components.User;
 import com.example.Components.login;
 
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -15,6 +14,11 @@ import javafx.stage.Stage;
 public class RegisterController {
 
     static LoginController loginController = new LoginController();
+    private static login login;
+
+    public RegisterController(login login){
+        this.login = login;
+    }
 
     protected EventHandler<ActionEvent> onRegisterButtonClick(Text actionTarget, TextField userTextField, TextField pwBox, Stage stage){
         return new EventHandler<ActionEvent>() {
@@ -23,7 +27,6 @@ public class RegisterController {
             public void handle(ActionEvent event) {
                 String username = userTextField.getText();
                 String password = pwBox.getText();
-                login login = new login();
 
                 try{
                     User user = new User(username,password);
@@ -42,15 +45,9 @@ public class RegisterController {
         };
     }
 
-    protected ChangeListener<? super String> onUserNameTextChange(Text actionTarget) {
-        return (observable, oldValue, newValue) -> {
-            actionTarget.setText("");
-        };
+    public static com.example.Components.login getLogin() {
+        return login;
     }
 
-    protected ChangeListener<? super String> onPasswordTextChange(Text actionTarget) {
-        return (observable, oldValue, newValue) -> {
-            actionTarget.setText("");
-        };
-    }
+   
 }

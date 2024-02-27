@@ -3,15 +3,12 @@ package com.example;
 import com.example.Components.DueDate;
 import com.example.Components.Priority;
 import com.example.Components.ScoreCounter;
-import com.example.Components.PomodoroTimer;
 
-import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class App {
 	

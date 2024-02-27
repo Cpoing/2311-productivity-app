@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.Components.login;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +20,7 @@ import javafx.stage.Stage;
 
 public class RegisterView {
     
-    static RegisterController registerController = new RegisterController();
+    static RegisterController registerController = new RegisterController(new login());
 
     public RegisterView(Stage stage){
         stage.setTitle("Register");
