@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 /**
  * This class allows user to create their username and the password
  */
@@ -16,11 +17,12 @@ public class RegisterController {
     static LoginController loginController = new LoginController();
     private static login login;
 
-    public RegisterController(login login){
+    public RegisterController(login login) {
         this.login = login;
     }
 
-    protected EventHandler<ActionEvent> onRegisterButtonClick(Text actionTarget, TextField userTextField, TextField pwBox, Stage stage){
+    protected EventHandler<ActionEvent> onRegisterButtonClick(Text actionTarget, TextField userTextField,
+            TextField pwBox, Stage stage) {
         return new EventHandler<ActionEvent>() {
 
             @Override
@@ -28,18 +30,18 @@ public class RegisterController {
                 String username = userTextField.getText();
                 String password = pwBox.getText();
 
-                try{
-                    User user = new User(username,password);
+                try {
+                    User user = new User(username, password);
                     login.register(user);
                     actionTarget.setFill(javafx.scene.paint.Color.GREEN);
                     actionTarget.setText("Register successful");
 
                     LoginView loginpage = new LoginView(loginController);
                     loginpage.start(stage);
-                    
-                } catch (IllegalArgumentException e){
+
+                } catch (IllegalArgumentException e) {
                     actionTarget.setFill(javafx.scene.paint.Color.RED);
-                    actionTarget.setText("Register unsuccessful");
+                    actionTarget.setText("Register unsuccessful, password must\n be at least 10 characters long");
                 }
             }
         };
@@ -49,5 +51,4 @@ public class RegisterController {
         return login;
     }
 
-   
 }

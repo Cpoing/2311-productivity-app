@@ -19,10 +19,10 @@ import javafx.stage.Stage;
  */
 
 public class RegisterView {
-    
+
     static RegisterController registerController = new RegisterController(new login());
 
-    public RegisterView(Stage stage){
+    public RegisterView(Stage stage) {
         stage.setTitle("Register");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -38,7 +38,7 @@ public class RegisterView {
         grid.add(userName, 0, 1);
 
         TextField userTextField = new TextField();
-        grid.add(userTextField, 1, 1, 2,1);
+        grid.add(userTextField, 1, 1, 2, 1);
 
         Label pw = new Label("Password:");
         grid.add(pw, 0, 2);
@@ -55,9 +55,9 @@ public class RegisterView {
         Text actionTarget = new Text();
         grid.add(actionTarget, 1, 6);
 
-        regbutton.setOnAction(registerController.onRegisterButtonClick(actionTarget,userTextField,pwBox,stage));
-        
-        Scene scene = new Scene(grid, 500, 450 );
+        regbutton.setOnAction(registerController.onRegisterButtonClick(actionTarget, userTextField, pwBox, stage));
+
+        Scene scene = new Scene(grid, 500, 450);
         stage.setScene(scene);
         stage.show();
     }
