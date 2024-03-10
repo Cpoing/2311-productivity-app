@@ -19,9 +19,9 @@ import java.time.LocalTime;
  * formatter is the date formatter.
  * errorMessage is the errorMessage to be displayed in the event that the information provided is incorrect.
  */
-public class DueDate {
-    private String dateString = null;
+public class DueDate extends VBox {
     private LocalDate dueDate;
+    private DatePicker datePicker;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private String errorMessage;
 
@@ -50,45 +50,16 @@ public class DueDate {
     public String getErrorMessage(){
         return errorMessage;
     }
-    /**
-     * The isValid method is the method which checks if the information provided is correct.
-     * @return True if the information provided is valid and false if it is invalid.
-     */
-    public boolean isValid(){
-        if (dateString != null){
-            try {
-            dueDate = LocalDate.parse(dateString, formatter);
-            int year = dueDate.getYear();
-            int month = dueDate.getMonthValue();
-            int day = dueDate.getDayOfMonth();
-            if (month < 1 || month > 12 || day < 1 || day > LocalDate.of(year, month, 1).lengthOfMonth()) {
-                throw new DateTimeParseException("Invalid date", dateString, 0);
-            }
-            } catch (DateTimeParseException e) {
-            errorMessage = "Invalid date or format, please use YYYY/MM/DD";
-            return false;
-            }
     
-    
-        if(currentDate.isAfter(dueDate)){
-            errorMessage = "Date has already passed";
-            return false;
-        } else{
-            
-            return true;
-        }
-        
-    }
-    errorMessage = "Date cannot be empty";
-    return false;      
-    
-    }
 
     public LocalDate setDate(){
         dueDate = datePicker.getValue();
         return dueDate;
     }
-
+    /**
+     * The isValid method is the method which checks if the information provided is correct.
+     * @return True if the information provided is valid and false if it is invalid.
+     */
     public boolean isValid() {
         if (dueDate != null) {
             LocalDate currentDate = LocalDate.now();
