@@ -1,18 +1,22 @@
 package com.example;
 
 import com.example.Components.DueDate;
+import com.example.Components.Notes;
 import com.example.Components.Priority;
 import com.example.Components.ScoreCounter;
 
+import javafx.scene.layout.VBox;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -41,7 +45,7 @@ public class App {
         BorderPane root = new BorderPane();
         // bottom is border pane for the bottom portion so that elements can be aligned at top-right, top-left, bottom-left, bottom-right
         BorderPane bottom = new BorderPane();
-        
+    
         toDoList = new ListView<>();
 
         newItemField = new TextField();
@@ -62,7 +66,15 @@ public class App {
         Button timerButton = new Button("Pomodoro Timer");
         timerButton.setOnAction(e -> updateTime());
         bottom.setRight(timerButton);
-        
+
+        Button noteButton = new Button("Notes");
+        noteButton.setOnAction(e -> openNoteWindow());
+        bottom.setTop(noteButton);
+
+        // created a VBox to resolve issue of button overlapping
+        VBox buttonbox = new VBox(timerButton, noteButton);
+        bottom.setRight(buttonbox);
+
         score = new ScoreCounter();
         Text scoreCount = new Text("Your Score: " + score.getCounter());
 
@@ -70,7 +82,7 @@ public class App {
         root.setRight(addButton);
         root.setLeft(scoreCount);
         root.setBottom(bottom);
-        
+              
         HBox date = new HBox(dueDate, dueDateErrorText);
         HBox item = new HBox(newItemField, newItemErrorText);
         HBox prio = new HBox(itemPrio, itemPrioError);
@@ -240,6 +252,50 @@ public class App {
     	public Text getText() {
     		return time;
     	}
+    }    
+    /**
+     * openNoteWindow is the class for the note feature
+     * 
+     * creates a text area for user to input notes
+     * 
+     * creates save and close buttons, saves notes to terminal (database future)
+     * 
+     */
+
+    private void openNoteWindow() {
+        Stage noteStage = new Stage();
+        BorderPane noteLayout = new BorderPane();
+
+        
+        TextArea noteTextArea = new TextArea(); 
+        noteLayout.setCenter(noteTextArea);
+        
+        Button saveButton = new Button("Save");
+        Button closeButton = new Button("Close");
+
+       
+        HBox buttonBox = new HBox(saveButton, closeButton); 
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT); 
+
+        
+        noteLayout.setBottom(buttonBox); 
+
+        saveButton.setOnAction(e -> {
+         
+            String noteContent = noteTextArea.getText(); 
+
+            System.out.println("Note saved: " + noteContent); 
+        });
+
+      
+        closeButton.setOnAction(e -> noteStage.close()); 
+
+        Scene noteScene = new Scene(noteLayout, 400, 300);
+        noteStage.setScene(noteScene);
+        noteStage.setTitle("Notes");
+        noteStage.show();
     }
+
 }
 	
