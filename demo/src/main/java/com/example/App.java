@@ -17,12 +17,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 
 public class App {
 
@@ -44,13 +46,17 @@ public class App {
     private Text newItemErrorText, dueDateErrorText, itemPrioError;
     private ScoreCounter score;
     private TimerDisplay disp;
+    private String username;
+    private BorderPane root;
+    private BorderPane bottom;
 
     public App(Stage stage, String username) {
         // root is the Root Border Pane
-        BorderPane root = new BorderPane();
+        this.root = new BorderPane();
         // bottom is border pane for the bottom portion so that elements can be aligned
         // at top-right, top-left, bottom-left, bottom-right
-        BorderPane bottom = new BorderPane();
+        this.bottom = new BorderPane();
+        this.username = username;
 
         toDoList = new ListView<>();
 
@@ -66,27 +72,44 @@ public class App {
         itemPrioError = new Text();
 
         Button addButton = new Button("Add");
-        addButton.setOnAction(e -> addNewItem(username));
+        addButton.setOnAction(e -> addNewItem());
 
         Button timerButton = new Button("Pomodoro Timer");
         timerButton.setOnAction(e -> updateTime());
-        bottom.setRight(timerButton);
+        this.bottom.setRight(timerButton);
 
         Button noteButton = new Button("Notes");
         noteButton.setOnAction(e -> openNoteWindow());
-        bottom.setTop(noteButton);
+        this.bottom.setTop(noteButton);
 
         // created a VBox to resolve issue of button overlapping
         VBox buttonbox = new VBox(timerButton, noteButton);
-        bottom.setRight(buttonbox);
+        this.bottom.setRight(buttonbox);
 
-        score = new ScoreCounter();
-        Text leftText = new Text(username + "\nYour Score: " + score.getCounter() + "\nRank: " + score.rankScore());
+        this.score = new ScoreCounter();
+        Text leftText = new Text(
+                this.username + "\nYour Score: " + this.score.getCounter() + "\nRank: " + this.score.rankScore());
+        if (score.rankScore() == "Rookie") {
+            this.root.setStyle("-fx-background-color: #51f5ae;");
+            this.bottom.setStyle("-fx-background-color: #51f5ae;");
+        } else if (score.rankScore() == "Intermediate") {
+            this.root.setStyle("-fx-background-color: #5edaff;");
+            this.bottom.setStyle("-fx-background-color: #5edaff;");
+        } else if (score.rankScore() == "Master") {
+            this.root.setStyle("-fx-background-color: #ff5e84;");
+            this.bottom.setStyle("-fx-background-color: #ff5e84;");
+        } else if (score.rankScore() == "Grand Master") {
+            this.root.setStyle("-fx-background-color: #f5ee6c;");
+            this.bottom.setStyle("-fx-background-color: #f5ee6c;");
+        } else if (score.rankScore() == "Legendary") {
+            this.root.setStyle("-fx-background-color: #bc6cf5;");
+            this.bottom.setStyle("-fx-background-color: #bc6cf5;");
+        }
 
-        root.setCenter(toDoList);
-        root.setRight(addButton);
-        root.setLeft(leftText);
-        root.setBottom(bottom);
+        this.root.setCenter(toDoList);
+        this.root.setRight(addButton);
+        this.root.setLeft(leftText);
+        this.root.setBottom(this.bottom);
 
         HBox date = new HBox(dueDateComponent, dueDateErrorText);
         HBox item = new HBox(newItemField, newItemErrorText);
@@ -96,9 +119,9 @@ public class App {
 
         inputFields.setSpacing(5);
 
-        bottom.setLeft(inputFields);
+        this.bottom.setLeft(inputFields);
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(this.root, 600, 400);
         stage.setTitle("To-Do List App");
         stage.setScene(scene);
         stage.show();
@@ -133,7 +156,7 @@ public class App {
      * date is the due date for the task.
      * priorityText describes whether the task is of Low, Medium, or High Priority.
      */
-    private void addNewItem(String username) {
+    private void addNewItem() {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
         String priorityText = itemPrio.getText().trim();
@@ -164,7 +187,7 @@ public class App {
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked, username);
+                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
             });
 
             int firstCheckedIndex = 0;
@@ -193,19 +216,36 @@ public class App {
      * @param ischecked     is the boolean for whether the task is already completed
      *                      or not to avoid duplicate additions to the score.
      */
-    private void updateScoreCounter(String priorityText, boolean dueDatePassed, boolean ischecked, String username) {
+    private void updateScoreCounter(String priorityText, boolean dueDatePassed, boolean ischecked) {
         if (ischecked) {
             if (dueDatePassed) {
-                score.subtractScore(priorityText);
+                this.score.subtractScore(priorityText);
             } else {
-                score.addScore(priorityText);
+                this.score.addScore(priorityText);
             }
         } else {
-            score.subtractScore(priorityText);
+            this.score.subtractScore(priorityText);
         }
-        Text scoreCount = new Text(username + "\nYour Score: " + score.getCounter() + "\nRank: " + score.rankScore());
+        Text scoreCount = new Text(
+                this.username + "\nYour Score: " + this.score.getCounter() + "\nRank: " + this.score.rankScore());
         // Update the score on the GUI
         ((BorderPane) newItemField.getScene().getRoot()).setLeft(scoreCount);
+        if (score.rankScore() == "Rookie") {
+            this.root.setStyle("-fx-background-color: #51f5ae;");
+            this.bottom.setStyle("-fx-background-color: #51f5ae;");
+        } else if (score.rankScore() == "Intermediate") {
+            this.root.setStyle("-fx-background-color: #5edaff;");
+            this.bottom.setStyle("-fx-background-color: #5edaff;");
+        } else if (score.rankScore() == "Master") {
+            this.root.setStyle("-fx-background-color: #ff5e84;");
+            this.bottom.setStyle("-fx-background-color: #ff5e84;");
+        } else if (score.rankScore() == "Grand Master") {
+            this.root.setStyle("-fx-background-color: #f5ee6c;");
+            this.bottom.setStyle("-fx-background-color: #f5ee6c;");
+        } else if (score.rankScore() == "Legendary") {
+            this.root.setStyle("-fx-background-color: #bc6cf5;");
+            this.bottom.setStyle("-fx-background-color: #bc6cf5;");
+        }
 
     }
 
