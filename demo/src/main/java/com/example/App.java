@@ -83,6 +83,7 @@ public class App {
         root.setCenter(toDoList);
         root.setRight(addButton);
         root.setLeft(scoreCount);
+        root.setBottom(bottom);
 
         HBox date = new HBox(dueDateComponent, dueDateErrorText);
         HBox item = new HBox(newItemField, newItemErrorText);
@@ -139,14 +140,10 @@ public class App {
         dueDateErrorText.setText("");
         itemPrioError.setText("");
 
-        try {
-            dueDateComponent.setDate();
+        dueDateComponent.setDate();
             if (!dueDateComponent.isValid()) {
                 dueDateErrorText.setText(dueDateComponent.getErrorMessage());
             }
-        } catch (Exception e) {
-            dueDateErrorText.setText("Invalid date or format, please use YYYY/MM/DD");
-        }
 
         if (newItemText.isEmpty()) {
             newItemErrorText.setText("Item name cannot be empty");

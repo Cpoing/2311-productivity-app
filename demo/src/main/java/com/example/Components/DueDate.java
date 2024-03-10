@@ -70,7 +70,7 @@ public class DueDate extends VBox {
                 return true;
             }
         }
-        errorMessage = "Date cannot be empty";
+        errorMessage = "Date is invalid or Date is empty";
         return false;
     }
     public DatePicker getDatePicker() {
