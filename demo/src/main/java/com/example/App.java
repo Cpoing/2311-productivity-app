@@ -1,5 +1,8 @@
 package com.example;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.example.Components.DueDate;
 import com.example.Components.Notes;
 import com.example.Components.Priority;
@@ -34,7 +37,7 @@ public class App {
 	 */
     private ListView<CheckBox> toDoList;
     private TextField newItemField;
-    private TextField dueDate;
+    private DueDate dueDateComponent;
     private TextField itemPrio;
     private Text newItemErrorText, dueDateErrorText, itemPrioError;
     private ScoreCounter score;
@@ -52,8 +55,7 @@ public class App {
         newItemField.setPromptText("Enter a new item");
         newItemErrorText = new Text();
 
-        dueDate = new TextField();
-        dueDate.setPromptText("YYYY/MM/DD");
+        dueDateComponent = new DueDate();
         dueDateErrorText = new Text();
 
         itemPrio = new TextField();
@@ -82,8 +84,8 @@ public class App {
         root.setRight(addButton);
         root.setLeft(scoreCount);
         root.setBottom(bottom);
-              
-        HBox date = new HBox(dueDate, dueDateErrorText);
+
+        HBox date = new HBox(dueDateComponent, dueDateErrorText);
         HBox item = new HBox(newItemField, newItemErrorText);
         HBox prio = new HBox(itemPrio, itemPrioError);
 
@@ -128,7 +130,7 @@ public class App {
      */
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
-        DueDate date = new DueDate(dueDate.getText().trim()); 
+        LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
         String priorityText = itemPrio.getText().trim();
 
         Priority prio = new Priority(priorityText);
@@ -137,27 +139,27 @@ public class App {
         newItemErrorText.setText("");
         dueDateErrorText.setText("");
         itemPrioError.setText("");
-        
+
+        dueDateComponent.setDate();
+            if (!dueDateComponent.isValid()) {
+                dueDateErrorText.setText(dueDateComponent.getErrorMessage());
+            }
+
         if (newItemText.isEmpty()) {
             newItemErrorText.setText("Item name cannot be empty");
-        }
-
-        if (!date.isValid()) {
-            dueDateErrorText.setText(date.getErrorMessage());
-        }
+        }        
 
         if (!prio.isValidPriority(priorityText)) {
             itemPrioError.setText("Priority must be 'Low', 'Medium', or 'High'");
         }
-        
-        // If All fields have the correct conditions...
-        
-        if (!newItemText.isEmpty() && date.isValid() == true && prio.isValidPriority(priorityText) == true) {
-            String combinedText = newItemText + " - Due: " + dueDate.getText() + "- Priority: " + priorityText;
+
+        if (!newItemText.isEmpty() && dueDateComponent.isValid() && prio.isValidPriority(priorityText)) {
+            String formattedDate = dueDateComponent.getFormattedDate();
+            String combinedText = newItemText + " - Due: " + formattedDate + " - Priority: " + priorityText;
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(priorityText, date.isValid(), checked);
+                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
             });
 
             int firstCheckedIndex = 0;
@@ -171,7 +173,7 @@ public class App {
             // Get fields ready for next item
             toDoList.getItems().add(firstCheckedIndex, newItemCheckbox);
             newItemField.clear();
-            dueDate.clear();
+            dueDateComponent.getDatePicker().setValue(null); // Clear selected date
             itemPrio.clear();
         }
     }
