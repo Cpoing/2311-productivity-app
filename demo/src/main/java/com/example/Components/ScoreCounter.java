@@ -1,11 +1,14 @@
 package com.example.Components;
 
 import java.util.Map;
+
 /**
- * ScoreCounter is the class that associates the score of the application with its corresponding level of priority as a value.
+ * ScoreCounter is the class that associates the score of the application with
+ * its corresponding level of priority as a value.
  * 
  * counter is the total score.
- * scoreMap is the map used to map the following priorities: low, medium, high to an integer value.
+ * scoreMap is the map used to map the following priorities: low, medium, high
+ * to an integer value.
  */
 public class ScoreCounter {
     int counter;
@@ -16,6 +19,23 @@ public class ScoreCounter {
      */
     public ScoreCounter() {
         this.counter = 0;
+    }
+
+    // returns the rank of the user
+    public String rankScore() {
+        String rank = "";
+        if (counter <= 500) {
+            rank = "Rookie";
+        } else if (counter <= 1000 && counter > 500) {
+            rank = "Intermediate";
+        } else if (counter <= 2000 && counter > 1000) {
+            rank = "Master";
+        } else if (counter <= 3000 && counter > 2000) {
+            rank = "Grand Master";
+        } else if (counter > 3000) {
+            rank = "Legendary";
+        }
+        return rank;
     }
 
     // returns the score counter

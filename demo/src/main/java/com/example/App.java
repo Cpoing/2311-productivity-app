@@ -25,16 +25,18 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class App {
-	
-	/**
-	 * toDoList is a Checkbox list of tasks needed to be completed.
-	 * newItemField is a text field for the description of a new task.
-	 * dueDate is the text field for the due date of a new task.
-	 * itemPrio is the tasks item priority.
-	 * newItemErrortext, dueDateErrorText & itemPrioError are the text dialogues for errors.
-	 * score is the users' score from the completion of tasks.
-	 * disp is a TimerDisplay object which contains the timer hbox and text attributes.
-	 */
+
+    /**
+     * toDoList is a Checkbox list of tasks needed to be completed.
+     * newItemField is a text field for the description of a new task.
+     * dueDate is the text field for the due date of a new task.
+     * itemPrio is the tasks item priority.
+     * newItemErrortext, dueDateErrorText & itemPrioError are the text dialogues for
+     * errors.
+     * score is the users' score from the completion of tasks.
+     * disp is a TimerDisplay object which contains the timer hbox and text
+     * attributes.
+     */
     private ListView<CheckBox> toDoList;
     private TextField newItemField;
     private DueDate dueDateComponent;
@@ -42,13 +44,14 @@ public class App {
     private Text newItemErrorText, dueDateErrorText, itemPrioError;
     private ScoreCounter score;
     private TimerDisplay disp;
-    
-    public App(Stage stage) {
-    	// root is the Root Border Pane
+
+    public App(Stage stage, String username) {
+        // root is the Root Border Pane
         BorderPane root = new BorderPane();
-        // bottom is border pane for the bottom portion so that elements can be aligned at top-right, top-left, bottom-left, bottom-right
+        // bottom is border pane for the bottom portion so that elements can be aligned
+        // at top-right, top-left, bottom-left, bottom-right
         BorderPane bottom = new BorderPane();
-    
+
         toDoList = new ListView<>();
 
         newItemField = new TextField();
@@ -63,7 +66,7 @@ public class App {
         itemPrioError = new Text();
 
         Button addButton = new Button("Add");
-        addButton.setOnAction(e -> addNewItem());
+        addButton.setOnAction(e -> addNewItem(username));
 
         Button timerButton = new Button("Pomodoro Timer");
         timerButton.setOnAction(e -> updateTime());
@@ -78,11 +81,11 @@ public class App {
         bottom.setRight(buttonbox);
 
         score = new ScoreCounter();
-        Text scoreCount = new Text("Your Score: " + score.getCounter());
+        Text leftText = new Text(username + "\nYour Score: " + score.getCounter() + "\nRank: " + score.rankScore());
 
         root.setCenter(toDoList);
         root.setRight(addButton);
-        root.setLeft(scoreCount);
+        root.setLeft(leftText);
         root.setBottom(bottom);
 
         HBox date = new HBox(dueDateComponent, dueDateErrorText);
@@ -90,7 +93,7 @@ public class App {
         HBox prio = new HBox(itemPrio, itemPrioError);
 
         VBox inputFields = new VBox(item, date, prio);
-        
+
         inputFields.setSpacing(5);
 
         bottom.setLeft(inputFields);
@@ -100,27 +103,29 @@ public class App {
         stage.setScene(scene);
         stage.show();
     }
-    
-   /* private void openPomodoroTimer(Stage timerStage) {
-    	BorderPane winTop = new BorderPane();
-    	BorderPane winBott = new BorderPane();
-    	Scene pomdoroScene = new Scene(winTop, 600, 400);
-    	
-    	//Button shortBreak = new Button("Short Break"); // 5 Minutes
-    	//Button longBreak = new Button("Long Break"); // 10 Minutes
-    	
-    	final int normalSeconds = 1500; // 25 minutes * 60 seconds = 1500 seconds
-    	//final int shortBreakSeconds = 300; // 5 minutes * 60 seconds = 300 seconds
-    	//final int longBreakSeconds = 600; // 10 minutes * 60 seconds = 600 seconds
-    	
-    	Timer myTimer = new Timer();
-    	myTimer.scheduleAtFixedRate(myTimerTask, 0, 1000);
-    	
-    	timerStage.setTitle("Pomodoro Timer");
-    	timerStage.setScene(pomdoroScene);
-    	timerStage.show();
-    }*/
-    
+
+    /*
+     * private void openPomodoroTimer(Stage timerStage) {
+     * BorderPane winTop = new BorderPane();
+     * BorderPane winBott = new BorderPane();
+     * Scene pomdoroScene = new Scene(winTop, 600, 400);
+     * 
+     * //Button shortBreak = new Button("Short Break"); // 5 Minutes
+     * //Button longBreak = new Button("Long Break"); // 10 Minutes
+     * 
+     * final int normalSeconds = 1500; // 25 minutes * 60 seconds = 1500 seconds
+     * //final int shortBreakSeconds = 300; // 5 minutes * 60 seconds = 300 seconds
+     * //final int longBreakSeconds = 600; // 10 minutes * 60 seconds = 600 seconds
+     * 
+     * Timer myTimer = new Timer();
+     * myTimer.scheduleAtFixedRate(myTimerTask, 0, 1000);
+     * 
+     * timerStage.setTitle("Pomodoro Timer");
+     * timerStage.setScene(pomdoroScene);
+     * timerStage.show();
+     * }
+     */
+
     /**
      * addNewItem is the method used to add a new task into the checklist.
      * 
@@ -128,7 +133,7 @@ public class App {
      * date is the due date for the task.
      * priorityText describes whether the task is of Low, Medium, or High Priority.
      */
-    private void addNewItem() {
+    private void addNewItem(String username) {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
         String priorityText = itemPrio.getText().trim();
@@ -141,13 +146,13 @@ public class App {
         itemPrioError.setText("");
 
         dueDateComponent.setDate();
-            if (!dueDateComponent.isValid()) {
-                dueDateErrorText.setText(dueDateComponent.getErrorMessage());
-            }
+        if (!dueDateComponent.isValid()) {
+            dueDateErrorText.setText(dueDateComponent.getErrorMessage());
+        }
 
         if (newItemText.isEmpty()) {
             newItemErrorText.setText("Item name cannot be empty");
-        }        
+        }
 
         if (!prio.isValidPriority(priorityText)) {
             itemPrioError.setText("Priority must be 'Low', 'Medium', or 'High'");
@@ -159,7 +164,7 @@ public class App {
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
+                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked, username);
             });
 
             int firstCheckedIndex = 0;
@@ -169,7 +174,7 @@ public class App {
                 } else
                     firstCheckedIndex++;
             }
-            
+
             // Get fields ready for next item
             toDoList.getItems().add(firstCheckedIndex, newItemCheckbox);
             newItemField.clear();
@@ -181,62 +186,70 @@ public class App {
     /**
      * updateScoreCounter is the method used to update the users' score
      * 
-     * @param priorityText is the String with the corresponding priority level of the task (Low, Medium or High).
-     * @param dueDatePassed is the boolean representing whether the due date has passed or not.
-     * @param ischecked is the boolean for whether the task is already completed or not to avoid duplicate additions to the score.
+     * @param priorityText  is the String with the corresponding priority level of
+     *                      the task (Low, Medium or High).
+     * @param dueDatePassed is the boolean representing whether the due date has
+     *                      passed or not.
+     * @param ischecked     is the boolean for whether the task is already completed
+     *                      or not to avoid duplicate additions to the score.
      */
-    private void updateScoreCounter(String priorityText, boolean dueDatePassed, boolean ischecked) {
+    private void updateScoreCounter(String priorityText, boolean dueDatePassed, boolean ischecked, String username) {
         if (ischecked) {
             if (dueDatePassed) {
-                score.addScore(priorityText);
-            } else {
                 score.subtractScore(priorityText);
+            } else {
+                score.addScore(priorityText);
             }
         } else {
             score.subtractScore(priorityText);
         }
-        Text scoreCount = new Text("Your Score: " + score.getCounter());
+        Text scoreCount = new Text(username + "\nYour Score: " + score.getCounter() + "\nRank: " + score.rankScore());
         // Update the score on the GUI
         ((BorderPane) newItemField.getScene().getRoot()).setLeft(scoreCount);
 
     }
+
     /**
      * updateTime is the method used to update the timer.
      * 
-     * Task is used to update the timer in a new thread (opting not to use the system thread since it is already being used).
+     * Task is used to update the timer in a new thread (opting not to use the
+     * system thread since it is already being used).
      */
     private void updateTime() {
-    	// GUI For Timer
-    	disp = new TimerDisplay();
-    	Stage pomodoroStage = new Stage();
-    	Scene scene = new Scene(disp, 600, 400);
-    	
-    	// Update Timer Count using Task Class
-    	Task<Object> task = new Task<>() {
-        	@Override
-        	protected Object call(){
-        		for(int i = 1500; i >= 0; i--) {
-        			try {
-        				// String format for time (2 digits per number seperated by :), i/60 is the minutes, i%60 is the seconds.
-        				updateMessage(String.format("%02d:%02d", i/60, i%60));
-        				Thread.sleep(1000);
-        			}
-        			catch(Exception e){
-        				Thread.currentThread().interrupt();
-        			}
-        		}
-        		return null;
-        	}
+        // GUI For Timer
+        disp = new TimerDisplay();
+        Stage pomodoroStage = new Stage();
+        Scene scene = new Scene(disp, 600, 400);
+
+        // Update Timer Count using Task Class
+        Task<Object> task = new Task<>() {
+            @Override
+            protected Object call() {
+                for (int i = 1500; i >= 0; i--) {
+                    try {
+                        // String format for time (2 digits per number seperated by :), i/60 is the
+                        // minutes, i%60 is the seconds.
+                        updateMessage(String.format("%02d:%02d", i / 60, i % 60));
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                return null;
+            }
         };
-        
-        new Thread(task).start(); // Must use new thread, using System thread causes JavaFX to delay since it is already using Sys thread.
-        
-        disp.getText().textProperty().bind(task.messageProperty()); //Get the text from task and bind it to the time variable in class TimerDisplay
-        
+
+        new Thread(task).start(); // Must use new thread, using System thread causes JavaFX to delay since it is
+                                  // already using Sys thread.
+
+        disp.getText().textProperty().bind(task.messageProperty()); // Get the text from task and bind it to the time
+                                                                    // variable in class TimerDisplay
+
         pomodoroStage.setTitle("Pomodoro Timer");
-    	pomodoroStage.setScene(scene);
-    	pomodoroStage.show();
+        pomodoroStage.setScene(scene);
+        pomodoroStage.show();
     }
+
     /**
      * TimerDisplay is the class for text attributes for the pomodoro timer.
      * 
@@ -244,17 +257,20 @@ public class App {
      * 
      * getText() returns the time as a Text attribute
      */
-    public class TimerDisplay extends HBox{
-    	private Text time;
-    	public TimerDisplay() {
-    		time = new Text("");
-    		getChildren().add(time);
-    		setAlignment(Pos.CENTER);
-    	}
-    	public Text getText() {
-    		return time;
-    	}
-    }    
+    public class TimerDisplay extends HBox {
+        private Text time;
+
+        public TimerDisplay() {
+            time = new Text("");
+            getChildren().add(time);
+            setAlignment(Pos.CENTER);
+        }
+
+        public Text getText() {
+            return time;
+        }
+    }
+
     /**
      * openNoteWindow is the class for the note feature
      * 
@@ -268,30 +284,26 @@ public class App {
         Stage noteStage = new Stage();
         BorderPane noteLayout = new BorderPane();
 
-        
-        TextArea noteTextArea = new TextArea(); 
+        TextArea noteTextArea = new TextArea();
         noteLayout.setCenter(noteTextArea);
-        
+
         Button saveButton = new Button("Save");
         Button closeButton = new Button("Close");
 
-       
-        HBox buttonBox = new HBox(saveButton, closeButton); 
+        HBox buttonBox = new HBox(saveButton, closeButton);
         buttonBox.setSpacing(10);
-        buttonBox.setAlignment(Pos.CENTER_RIGHT); 
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
-        
-        noteLayout.setBottom(buttonBox); 
+        noteLayout.setBottom(buttonBox);
 
         saveButton.setOnAction(e -> {
-         
-            String noteContent = noteTextArea.getText(); 
 
-            System.out.println("Note saved: " + noteContent); 
+            String noteContent = noteTextArea.getText();
+
+            System.out.println("Note saved: " + noteContent);
         });
 
-      
-        closeButton.setOnAction(e -> noteStage.close()); 
+        closeButton.setOnAction(e -> noteStage.close());
 
         Scene noteScene = new Scene(noteLayout, 400, 300);
         noteStage.setScene(noteScene);
@@ -300,4 +312,3 @@ public class App {
     }
 
 }
-	
