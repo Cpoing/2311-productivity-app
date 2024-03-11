@@ -24,6 +24,9 @@ public class DueDate extends VBox {
     private DatePicker datePicker;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private String errorMessage;
+    private ComboBox<Integer> hourComboBox;
+    private ComboBox<Integer> minuteComboBox;
+    private ComboBox<String> amPmComboBox;
 
 /**
  * DueDate is the constructor for the DueDate Class
@@ -32,8 +35,34 @@ public class DueDate extends VBox {
  */    public DueDate() {
         datePicker = new DatePicker();
         datePicker.setPromptText("yyyy/MM/dd");
+        hourComboBox = new ComboBox<>();
+        minuteComboBox = new ComboBox<>();
+        amPmComboBox = new ComboBox<>();
 
-        getChildren().addAll(datePicker);
+        hourComboBox.setPromptText("Hour");
+        minuteComboBox.setPromptText("Minute");
+        amPmComboBox.setPromptText("AM/PM");
+
+        for (int hour = 1; hour <= 12; hour++) {
+            hourComboBox.getItems().add(hour);
+        }
+        for (int minute = 0; minute < 60; minute += 5) {
+            minuteComboBox.getItems().add(minute);
+        }
+        
+        amPmComboBox.getItems().addAll("AM", "PM");
+        HBox dueDateBox = new HBox(datePicker,hourComboBox, minuteComboBox, amPmComboBox);
+        dueDateBox.setSpacing(10);
+        getChildren().addAll(dueDateBox);
+    }
+
+    public LocalTime getTime() {
+        int hour = hourComboBox.getValue();
+        if (amPmComboBox.getValue().equals("PM")) {
+            hour += 12; // Convert to 24-hour format for PM
+        }
+        int minute = minuteComboBox.getValue();
+        return LocalTime.of(hour % 24, minute); // Ensure hour is within 0-23 range
     }
 
     public DueDate(String dateString) {
@@ -73,6 +102,9 @@ public class DueDate extends VBox {
         errorMessage = "Date is invalid or Date is empty";
         return false;
     }
+
+    
+
     public DatePicker getDatePicker() {
         return datePicker;
     }
