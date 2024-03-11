@@ -41,7 +41,7 @@ public class RegisterController {
 
                 } catch (IllegalArgumentException e) {
                     actionTarget.setFill(javafx.scene.paint.Color.RED);
-                    actionTarget.setText("Register unsuccessful, password must\n be at least 10 characters long");
+                    actionTarget.setText("Password must be at least 10 characters long \n OR \n User name already exist");
                 }
             }
         };

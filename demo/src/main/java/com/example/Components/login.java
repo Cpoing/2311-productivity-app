@@ -38,9 +38,8 @@ public class login {
      * @return True if the user exists in the system, false if the user does not (Needs to register first).
      */
     public boolean loginTo(String id, String password){
-        String Password = db.getPassword(id);
         if(this.userList.containsKey(id)) {
-            if(this.userList.get(id).equals(password) || (!Password.isEmpty() && Password.equals(password))) {
+            if(this.userList.get(id).equals(password)) {
                 return true;
             } else {
                 return false;
@@ -48,6 +47,14 @@ public class login {
         } else {
             throw new IllegalArgumentException();
         }
+
+        //For DB version:
+        // String Password = db.getPassword(id);
+        // if(!Password.isEmpty() && Password.equals(password)){
+        //     return true;
+        // } else {
+        //     return false;
+        // }
 
     }
     /**
