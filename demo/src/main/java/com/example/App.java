@@ -43,7 +43,8 @@ public class App {
     private TextField newItemField;
     private DueDate dueDateComponent;
     private TextField itemPrio;
-    private Text newItemErrorText, dueDateErrorText, itemPrioError;
+    private Priority priority;
+    private Text newItemErrorText, dueDateErrorText, prioErrorText;
     private ScoreCounter score;
     private TimerDisplay disp;
     private String username;
@@ -66,10 +67,16 @@ public class App {
 
         dueDateComponent = new DueDate();
         dueDateErrorText = new Text();
-
-        itemPrio = new TextField();
-        itemPrio.setPromptText("Priority(Low,Medium,High)");
-        itemPrioError = new Text();
+        
+       this.priority = new Priority(null);
+       prioErrorText = new Text();
+       
+     
+        
+        
+        
+        
+       
 
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addNewItem());
@@ -113,9 +120,10 @@ public class App {
 
         HBox date = new HBox(dueDateComponent, dueDateErrorText);
         HBox item = new HBox(newItemField, newItemErrorText);
-        HBox prio = new HBox(itemPrio, itemPrioError);
+        HBox prioButtons = priority.createPriorityButtons();
+      
 
-        VBox inputFields = new VBox(item, date, prio);
+        VBox inputFields = new VBox(item, date, prioButtons);
 
         inputFields.setSpacing(5);
 
@@ -159,14 +167,15 @@ public class App {
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
-        String priorityText = itemPrio.getText().trim();
+        
+        String prio = priority.getPriority();
 
-        Priority prio = new Priority(priorityText);
+       
 
         // Instantiate Variables
         newItemErrorText.setText("");
         dueDateErrorText.setText("");
-        itemPrioError.setText("");
+      
 
         dueDateComponent.setDate();
         if (!dueDateComponent.isValid()) {
@@ -177,17 +186,19 @@ public class App {
             newItemErrorText.setText("Item name cannot be empty");
         }
 
-        if (!prio.isValidPriority(priorityText)) {
-            itemPrioError.setText("Priority must be 'Low', 'Medium', or 'High'");
+        if (prio == null) {
+            priority.setError("Please select a priority");
+            return;
         }
+      
 
-        if (!newItemText.isEmpty() && dueDateComponent.isValid() && prio.isValidPriority(priorityText)) {
+        if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
-            String combinedText = newItemText + " - Due: " + formattedDate + " - Priority: " + priorityText;
+            String combinedText = newItemText + " - Due: " + formattedDate + " - Priority: " + prio;
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
+                updateScoreCounter(prio, selectedDate.isBefore(LocalDate.now()), checked);
             });
 
             int firstCheckedIndex = 0;
@@ -202,7 +213,8 @@ public class App {
             toDoList.getItems().add(firstCheckedIndex, newItemCheckbox);
             newItemField.clear();
             dueDateComponent.getDatePicker().setValue(null); // Clear selected date
-            itemPrio.clear();
+            priority.setPriority(null);
+            
         }
     }
 
