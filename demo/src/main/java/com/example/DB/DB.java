@@ -74,6 +74,27 @@ public class DB {
         return "";
     }
 
+    public String getID(String id) {
+        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String user = "postgres";
+        String password = "taehyun905";
+    
+        try{
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            prestatement = connection.prepareStatement("SELECT \"ID\" FROM login_table WHERE \"ID\" = ?");
+            prestatement.setString(1, id);
+            result = prestatement.executeQuery();
+            if (result.next()) {
+                return result.getString("ID");
+            }
+    
+        } catch (Exception e) {
+            System.out.println("Connection Failed");
+        }
+        return "";
+    }
+
     public int getNumberofUsers(){
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";

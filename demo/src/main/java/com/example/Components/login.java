@@ -1,6 +1,7 @@
 package com.example.Components;
 
 import com.example.DB.DB;
+import java.util.HashMap;
 
 /**
  * This class describes the login function of the application.
@@ -8,12 +9,14 @@ import com.example.DB.DB;
  * userList is the list of users' information in a hash map.
  */
 public class login {
+    private HashMap<String, String> userList;
     private DB db;
 
     /**
      * login is the constructor for login.
      */
     public login(){
+        this.userList = new HashMap<>();
         this.db = new DB();
     }
     /**
@@ -21,7 +24,12 @@ public class login {
      * @param user is the user object.
      */
     public void register(User user){
-        db.insertUserInfo(user.getUsername(), user.getPassword());
+        if(this.userList.containsKey(user.getUsername())){
+            throw new IllegalArgumentException();
+        } else {
+            this.userList.put(user.getUsername(), user.getPassword());
+            db.insertUserInfo(user.getUsername(), user.getPassword());
+        }
     }
     /**
      * loginTo is the method that authenticates whether the user is registered.
@@ -31,18 +39,23 @@ public class login {
      */
     public boolean loginTo(String id, String password){
         String Password = db.getPassword(id);
-        if(!Password.isEmpty() && Password.equals(password)){
-            return true;
+        if(this.userList.containsKey(id)) {
+            if(this.userList.get(id).equals(password) || (!Password.isEmpty() && Password.equals(password))) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            throw new IllegalArgumentException();
         }
+
     }
     /**
      * size is the method used to display the amount of users there are.
-     * @return the size of the list.
+     * @return the number of the users.
      */
     public int size() {
-    	return db.getNumberofUsers();
+    	return userList.size();
     }
 
 }
