@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.Components.User;
 import com.example.Components.login;
+import com.example.DB.DBConnect;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 public class RegisterController {
 
     static LoginController loginController = new LoginController();
+    DBConnect db = new DBConnect();
     private static login login;
 
     public RegisterController(login login) {
@@ -35,6 +37,7 @@ public class RegisterController {
                     login.register(user);
                     actionTarget.setFill(javafx.scene.paint.Color.GREEN);
                     actionTarget.setText("Register successful");
+                    db.insertUserInfo(username, password);
 
                     LoginView loginpage = new LoginView(loginController);
                     loginpage.start(stage);
