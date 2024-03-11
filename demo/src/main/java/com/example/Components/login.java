@@ -7,6 +7,7 @@ import java.util.HashMap;
  * This class describes the login function of the application.
  * 
  * userList is the list of users' information in a hash map.
+ * db is the database.
  */
 public class login {
     private HashMap<String, String> userList;

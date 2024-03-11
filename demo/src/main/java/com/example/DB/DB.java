@@ -2,18 +2,28 @@ package com.example.DB;
 
 import java.sql.*;
 
+/**
+ * This class is about making database for the application.
+ * connection is connect the java and postgreSQL.
+ * result executing an SQL query.
+ * prestatement be able to make SQL statements.
+ */
 public class DB {
-
     private Connection connection;
     private ResultSet result; 
     private PreparedStatement prestatement;
 
+    /**
+     * DB is the constructor for DB.
+     */
     public DB(){
         this.connection = null;
         this.result = null;
         this.prestatement = null;
     }
-
+    /**
+     * init ius the method that make connection between Java and the postgreSQL.
+     */
     public void init(){
         String url = "jdbc:postgresql://localhost:5432/postgres";
 		String user = "postgres";
@@ -30,6 +40,11 @@ public class DB {
         }
     }
 
+    /**
+     * insertUserInfo is the method that insert new registered user infomation to the DB.
+     * @param id is the username.
+     * @param pass is the password.
+     */
     public void insertUserInfo(String id, String pass){
         String url = "jdbc:postgresql://localhost:5432/postgres";
 		String user = "postgres";
@@ -53,6 +68,11 @@ public class DB {
         }
     }
 
+    /**
+     * getPassword is the method that gets the password that is correspond to the username.
+     * @param id is the username. 
+     * @return password if username is exists in the system, "" if there is error or username is not exist.
+     */
     public String getPassword(String id) {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
@@ -73,7 +93,11 @@ public class DB {
         }
         return "";
     }
-
+    /**
+     * getID is the method that gets the username based on the username.
+     * @param id is the username.
+     * @return username if username is exists in the system, "" if there is error or username is not exist.
+     */
     public String getID(String id) {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
@@ -95,6 +119,10 @@ public class DB {
         return "";
     }
 
+    /**
+     * getNumberofUsers is the method that gets the total number of users in DB.
+     * @return total number of user in DB.
+     */
     public int getNumberofUsers(){
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
