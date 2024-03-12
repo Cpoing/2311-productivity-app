@@ -8,6 +8,7 @@ import com.example.Components.Notes;
 import com.example.Components.Priority;
 import com.example.Components.ScoreCounter;
 
+import java.awt.Toolkit;
 import javafx.scene.layout.VBox;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -22,6 +23,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
@@ -272,12 +276,16 @@ public class App {
         disp = new TimerDisplay();
         Stage pomodoroStage = new Stage();
         Scene scene = new Scene(disp, 600, 400);
-
+        disp.setStyle("-fx-background-color: #3A3B3C;");
         // Update Timer Count using Task Class
         Task<Object> task = new Task<>() {
             @Override
             protected Object call() {
                 for (int i = 1500; i >= 0; i--) {
+                	// If the timer has run out then play the default OS beep.
+                	if(i == 0) {
+                		Toolkit.getDefaultToolkit().beep();
+                	}
                     try {
                         // String format for time (2 digits per number seperated by :), i/60 is the
                         // minutes, i%60 is the seconds.
@@ -314,10 +322,11 @@ public class App {
 
         public TimerDisplay() {
             time = new Text("");
+            time.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 40));
+            time.setFill(Color.WHITE);
             getChildren().add(time);
             setAlignment(Pos.CENTER);
         }
-
         public Text getText() {
             return time;
         }
