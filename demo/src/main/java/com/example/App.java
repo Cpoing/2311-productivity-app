@@ -71,16 +71,9 @@ public class App {
 
         dueDateComponent = new DueDate();
         dueDateErrorText = new Text();
-        
-       this.priority = new Priority(null);
-       prioErrorText = new Text();
-       
-     
-        
-        
-        
-        
-       
+
+        this.priority = new Priority(null);
+        prioErrorText = new Text();
 
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addNewItem());
@@ -125,7 +118,6 @@ public class App {
         HBox date = new HBox(dueDateComponent, dueDateErrorText);
         HBox item = new HBox(newItemField, newItemErrorText);
         HBox prioButtons = priority.createPriorityButtons();
-      
 
         VBox inputFields = new VBox(item, date, prioButtons);
 
@@ -171,15 +163,12 @@ public class App {
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
-        
-        String prio = priority.getPriority();
 
-       
+        String prio = priority.getPriority();
 
         // Instantiate Variables
         newItemErrorText.setText("");
         dueDateErrorText.setText("");
-      
 
         dueDateComponent.setDate();
         if (!dueDateComponent.isValid()) {
@@ -194,7 +183,6 @@ public class App {
             priority.setError("Please select a priority");
             return;
         }
-      
 
         if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
@@ -218,7 +206,7 @@ public class App {
             newItemField.clear();
             dueDateComponent.getDatePicker().setValue(null); // Clear selected date
             priority.setPriority(null);
-            
+
         }
     }
 
@@ -233,15 +221,16 @@ public class App {
      *                      or not to avoid duplicate additions to the score.
      */
     private void updateScoreCounter(String priorityText, boolean dueDatePassed, boolean ischecked) {
-        if (ischecked) {
-            if (dueDatePassed) {
-                this.score.subtractScore(priorityText);
-            } else {
-                this.score.addScore(priorityText);
-            }
-        } else {
+        if (dueDatePassed) {
             this.score.subtractScore(priorityText);
+        } else {
+            if (ischecked) {
+                this.score.addScore(priorityText);
+            } else {
+                this.score.subtractScore(priorityText);
+            }
         }
+
         Text scoreCount = new Text(
                 this.username + "\nYour Score: " + this.score.getCounter() + "\nRank: " + this.score.rankScore());
         // Update the score on the GUI
@@ -282,10 +271,10 @@ public class App {
             @Override
             protected Object call() {
                 for (int i = 1500; i >= 0; i--) {
-                	// If the timer has run out then play the default OS beep.
-                	if(i == 0) {
-                		Toolkit.getDefaultToolkit().beep();
-                	}
+                    // If the timer has run out then play the default OS beep.
+                    if (i == 0) {
+                        Toolkit.getDefaultToolkit().beep();
+                    }
                     try {
                         // String format for time (2 digits per number seperated by :), i/60 is the
                         // minutes, i%60 is the seconds.
@@ -327,6 +316,7 @@ public class App {
             getChildren().add(time);
             setAlignment(Pos.CENTER);
         }
+
         public Text getText() {
             return time;
         }
