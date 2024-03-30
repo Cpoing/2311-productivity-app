@@ -25,10 +25,16 @@ public class login {
      * @param user is the user object.
      */
     public void register(User user){
-        if(this.userList.containsKey(user.getUsername())){
+        // if(this.userList.containsKey(user.getUsername())){
+        //     throw new IllegalArgumentException();
+        // } else {
+        //     this.userList.put(user.getUsername(), user.getPassword());
+        // }
+
+        //for DB:
+        if(user.getUsername().length() <= 0 || user.getPassword().length() < 10 || user.getUsername().equals(db.getID(user.getUsername()))){
             throw new IllegalArgumentException();
         } else {
-            this.userList.put(user.getUsername(), user.getPassword());
             db.insertUserInfo(user.getUsername(), user.getPassword());
         }
     }
