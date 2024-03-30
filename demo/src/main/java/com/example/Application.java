@@ -3,6 +3,8 @@ package com.example;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import com.example.DB.DB;
+
 public class Application extends javafx.application.Application {
    static LoginController loginController = new LoginController();
 
@@ -13,6 +15,8 @@ public class Application extends javafx.application.Application {
    }
 
    public static void main(String[] args) {
+      DB db = new DB();
+      db.init();
       launch();
    }
 }
