@@ -55,7 +55,7 @@ public class login {
         //     throw new IllegalArgumentException();
         // }
 
-        //For DB version:
+        // For DB version:
         String Password = db.getPassword(id);
         if(!Password.isEmpty() && Password.equals(password)){
             return true;

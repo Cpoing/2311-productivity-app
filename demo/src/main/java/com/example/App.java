@@ -2,10 +2,13 @@ package com.example;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.Components.DueDate;
 import com.example.Components.Notes;
 import com.example.Components.Priority;
+import com.example.Components.ScoreChartWindow;
 import com.example.Components.ScoreCounter;
 
 import java.awt.Toolkit;
@@ -29,6 +32,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 public class App {
 
@@ -86,9 +91,7 @@ public class App {
         noteButton.setOnAction(e -> openNoteWindow());
         this.bottom.setTop(noteButton);
 
-        // created a VBox to resolve issue of button overlapping
-        VBox buttonbox = new VBox(timerButton, noteButton);
-        this.bottom.setRight(buttonbox);
+        
 
         this.score = new ScoreCounter();
         Text leftText = new Text(
@@ -129,6 +132,19 @@ public class App {
         stage.setTitle("To-Do List App");
         stage.setScene(scene);
         stage.show();
+
+        ScoreChartWindow scoreChartWindow = new ScoreChartWindow(score);
+
+        Button openChartButton = new Button("Open Score Chart");
+        openChartButton.setOnAction(event -> {
+            scoreChartWindow.show(); 
+        });
+
+        // created a VBox to resolve issue of button overlapping
+        VBox buttonbox = new VBox(timerButton, noteButton, openChartButton);
+        this.bottom.setRight(buttonbox);
+        
+
     }
 
     /*

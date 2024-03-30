@@ -1,55 +1,63 @@
 package com.example.Components;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
-/**
- * ScoreCounter is the class that associates the score of the application with
- * its corresponding level of priority as a value.
- * 
- * counter is the total score.
- * scoreMap is the map used to map the following priorities: low, medium, high
- * to an integer value.
- */
 public class ScoreCounter {
-    int counter;
-    final Map<String, Integer> scoreMap = Map.of("low", 100, "medium", 300, "high", 500);
+    private IntegerProperty counter;
+    private final Map<String, Integer> scoreMap = Map.of("low", 100, "medium", 300, "high", 500);
+    private final Map<LocalDateTime, Integer> scoreData = new HashMap<>();
 
-    /**
-     * The constructor that initializes the score at 0.
-     */
     public ScoreCounter() {
-        this.counter = 0;
+        this.counter = new SimpleIntegerProperty(0);
     }
 
-    // returns the rank of the user
     public String rankScore() {
+        int counterValue = counter.get(); // Get the integer value from the property
         String rank = "";
-        if (counter <= 500) {
+        if (counterValue <= 500) {
             rank = "Rookie";
-        } else if (counter <= 1000 && counter > 500) {
+        } else if (counterValue <= 1000) {
             rank = "Intermediate";
-        } else if (counter <= 2000 && counter > 1000) {
+        } else if (counterValue <= 2000) {
             rank = "Master";
-        } else if (counter <= 3000 && counter > 2000) {
+        } else if (counterValue <= 3000) {
             rank = "Grand Master";
-        } else if (counter > 3000) {
+        } else {
             rank = "Legendary";
         }
         return rank;
     }
 
-    // returns the score counter
-    public int getCounter() {
-        return this.counter;
+    public IntegerProperty counterProperty() {
+        return counter;
     }
 
-    // used to add score based on completed tasks (checkmarked)
     public void addScore(String score) {
-        this.counter += scoreMap.get(score.toLowerCase());
+        int currentCounter = counter.get(); // Get the current counter value
+        int scoreToAdd = scoreMap.get(score.toLowerCase());
+        counter.set(currentCounter + scoreToAdd); // Set the updated value to the property
+        scoreData.put(LocalDateTime.now(), currentCounter + scoreToAdd); // Record score data
     }
 
-    // used to decrement score based on unfinished tasks past the due date
     public void subtractScore(String score) {
-        this.counter -= scoreMap.get(score.toLowerCase());
+        int currentCounter = counter.get(); // Get the current counter value
+        int scoreToSubtract = scoreMap.get(score.toLowerCase());
+        counter.set(currentCounter - scoreToSubtract); // Set the updated value to the property
+        scoreData.put(LocalDateTime.now(), currentCounter - scoreToSubtract); // Record score data
+    }
+
+    public Map<LocalDateTime, Integer> getScoreData() {
+        return scoreData;
+    }
+
+    public LocalDateTime getTime() {
+        return LocalDateTime.now(); // Return current time
+    }
+    public int getCounter() {
+        return counter.get();
     }
 }
