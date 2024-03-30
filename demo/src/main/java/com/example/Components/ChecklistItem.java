@@ -1,6 +1,7 @@
 package com.example.Components;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ChecklistItem {
     private String description;
@@ -9,12 +10,12 @@ public class ChecklistItem {
     private String priority;
     private boolean isChecked;
 
-    public ChecklistItem(String description, LocalDate dueDate, LocalTime dueTime, String priority) {
+    public ChecklistItem(String description, LocalDate dueDate, LocalTime dueTime, String priority, boolean isChecked) {
         this.description = description;
         this.dueDate = dueDate;
         this.dueTime = dueTime;
         this.priority = priority;
-        this.isChecked = false; // Initially, the item is not checked
+        this.isChecked = isChecked;
     }
 
     // Getter method for description
@@ -26,6 +27,12 @@ public class ChecklistItem {
     public LocalDate getDueDate() {
         return dueDate;
     }
+    // Getter for dueDate in String format
+    public String getFormattedDate() {
+    String formattedDate = dueDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+    String formattedTime = dueTime.format(DateTimeFormatter.ofPattern("HH:mm")); // Assuming time format is "hh:mm AM/PM"
+    return formattedDate + " " + formattedTime;
+    }
 
     // Getter method for dueTime
     public LocalTime getDueTime() {
@@ -34,7 +41,7 @@ public class ChecklistItem {
 
     // Getter method for priority
     public String getPriority() {
-        return priority;
+        return priority.toLowerCase();
     }
 
     // Getter method for isChecked

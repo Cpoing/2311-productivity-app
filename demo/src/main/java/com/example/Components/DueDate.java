@@ -103,7 +103,6 @@ public class DueDate extends VBox {
         return false;
     }
 
-    
 
     public DatePicker getDatePicker() {
         return datePicker;

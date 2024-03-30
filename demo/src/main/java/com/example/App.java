@@ -202,8 +202,8 @@ public class App {
 
         if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
-            String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: " + priorityText;
-            ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, priorityText);
+            String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: " + prio;
+            ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false);
             checklistItems.add(newItem);
 /* 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
@@ -212,14 +212,20 @@ public class App {
             });*/
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
-        newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {
+            newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {
             if (isChecked) {
-                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), true);
+                updateScoreCounter(prio, selectedDate.isBefore(LocalDate.now()), true);
+                newItem.setChecked(true); 
                 newItemCheckbox.setDisable(true); // Disable checkbox once checked
+
             } else {
-                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), false);
+                updateScoreCounter(prio, selectedDate.isBefore(LocalDate.now()), false);
+                newItem.setChecked(false); 
                 newItemCheckbox.setDisable(false); // Enable checkbox if unchecked
+
             }
+
+            
         });
 
             int firstCheckedIndex = 0;
@@ -252,9 +258,25 @@ public class App {
 
      private void updateScoresAndColors() {
         // Update the score counter
-        Text scoreCount = new Text("Your Score: " + score.getCounter());
-        ((BorderPane) newItemField.getScene().getRoot()).setLeft(scoreCount); // Update the score on the GUI
-    
+        Text scoreCount = new Text(this.username + "\nYour Score: " + this.score.getCounter() + "\nRank: " + this.score.rankScore());
+    // Update the score on the GUI
+    ((BorderPane) newItemField.getScene().getRoot()).setLeft(scoreCount);
+    if (score.rankScore() == "Rookie") {
+        this.root.setStyle("-fx-background-color: #51f5ae;");
+        this.bottom.setStyle("-fx-background-color: #51f5ae;");
+    } else if (score.rankScore() == "Intermediate") {
+        this.root.setStyle("-fx-background-color: #5edaff;");
+        this.bottom.setStyle("-fx-background-color: #5edaff;");
+    } else if (score.rankScore() == "Master") {
+        this.root.setStyle("-fx-background-color: #ff5e84;");
+        this.bottom.setStyle("-fx-background-color: #ff5e84;");
+    } else if (score.rankScore() == "Grand Master") {
+        this.root.setStyle("-fx-background-color: #f5ee6c;");
+        this.bottom.setStyle("-fx-background-color: #f5ee6c;");
+    } else if (score.rankScore() == "Legendary") {
+        this.root.setStyle("-fx-background-color: #bc6cf5;");
+        this.bottom.setStyle("-fx-background-color: #bc6cf5;");
+    }
         // Check if any items are overdue and update their appearance
         for (ChecklistItem item : checklistItems) {
             if (!item.isChecked()) { // Check only if the item is not already checked
@@ -266,16 +288,17 @@ public class App {
                     // Find the corresponding checkbox for the item
                     for (int i = 0; i < toDoList.getItems().size(); i++) {
                         CheckBox checkbox = toDoList.getItems().get(i);
-                        if (checkbox.getText().startsWith(item.getDescription())) {
+                        String checkboxText = checkbox.getText();
+                        if (checkboxText.startsWith(item.getDescription()) && checkboxText.contains(item.getFormattedDate()) && !checkbox.isSelected())  {
                             checkbox.setStyle("-fx-text-fill: red;"); // Turn the text color of overdue items to red
                             checkbox.setSelected(true); 
                             item.setChecked(true); 
                             score.subtractScore(item.getPriority()); 
-                            break;
                         }
                     }
                 }
-            }
+            } 
+
         }
     }
 
