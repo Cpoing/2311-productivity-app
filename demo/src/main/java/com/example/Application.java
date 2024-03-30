@@ -16,7 +16,11 @@ public class Application extends javafx.application.Application {
 
    public static void main(String[] args) {
       DB db = new DB();
-      db.init();
+      if(db.init()){
+         System.out.println("Connected");
+      } else {
+         System.out.println("Connection failed");
+      }
       launch();
    }
 }

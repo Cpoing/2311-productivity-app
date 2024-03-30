@@ -22,9 +22,11 @@ public class DB {
         this.prestatement = null;
     }
     /**
-     * init ius the method that make connection between Java and the postgreSQL.
+     * init is the method that make connection between Java and the postgreSQL.
+     * @return true if connection was successfully made.
+     * @return false if connection was not successfully made.
      */
-    public void init(){
+    public boolean init(){
         String url = "jdbc:postgresql://localhost:5432/postgres";
 		String user = "postgres";
 		String password = "taehyun905";
@@ -33,10 +35,11 @@ public class DB {
             Class.forName("org.postgresql.Driver");
 
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected");
+            return true;
 
         } catch (Exception e){
             System.out.println("Connection Failed");
+            return false;
         }
     }
 
@@ -46,25 +49,20 @@ public class DB {
      * @param pass is the password.
      */
     public void insertUserInfo(String id, String pass){
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-		String user = "postgres";
-		String password = "taehyun905";
-        
         try {
+            init();
             StringBuffer sql = new StringBuffer();
-
-            Class.forName("org.postgresql.Driver");
             sql.append("INSERT INTO login_table (\"ID\", \"password\")");
             sql.append("VALUES (?,?)");
 
-            connection = DriverManager.getConnection(url, user, password);
             prestatement = connection.prepareStatement(sql.toString());
             prestatement.setString(1, id);
             prestatement.setString(2, pass);
             prestatement.executeUpdate();
+            System.out.println("successfully stored");
             
         } catch (Exception e) {
-            System.out.println("Connection Failed");
+            System.out.println("Failed to store");
         }
     }
 
@@ -74,13 +72,8 @@ public class DB {
      * @return password if username is exists in the system, "" if there is error or username is not exist.
      */
     public String getPassword(String id) {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password = "taehyun905";
-    
         try{
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, user, password);
+            init();
             prestatement = connection.prepareStatement("SELECT password FROM login_table WHERE \"ID\" = ?");
             prestatement.setString(1, id);
             result = prestatement.executeQuery();
@@ -89,7 +82,7 @@ public class DB {
             }
     
         } catch (Exception e) {
-            System.out.println("Connection Failed");
+            System.out.println("Failed to get password");
         }
         return "";
     }
@@ -99,13 +92,8 @@ public class DB {
      * @return username if username is exists in the system, "" if there is error or username is not exist.
      */
     public String getID(String id) {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password = "taehyun905";
-    
         try{
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, user, password);
+            init();
             prestatement = connection.prepareStatement("SELECT \"ID\" FROM login_table WHERE \"ID\" = ?");
             prestatement.setString(1, id);
             result = prestatement.executeQuery();
@@ -114,7 +102,7 @@ public class DB {
             }
     
         } catch (Exception e) {
-            System.out.println("Connection Failed");
+            System.out.println("Failed to get ID");
         }
         return "";
     }
@@ -124,21 +112,15 @@ public class DB {
      * @return total number of user in DB.
      */
     public int getNumberofUsers(){
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password = "taehyun905";
-    
         try{
-            Class.forName("org.postgresql.Driver");
+            init();
             prestatement = connection.prepareStatement("SELECT COUNT(*) FROM login_table");
-            
-            connection = DriverManager.getConnection(url, user, password);
             result = prestatement.executeQuery();
             if(result.next()){
                 return result.getInt("count");
             }
         } catch (Exception e) {
-            System.out.println("Connection Failed");
+            System.out.println("Failed to get number of users");
         }
         return 0;
     }
