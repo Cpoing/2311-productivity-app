@@ -56,7 +56,7 @@ public class App {
      * attributes.
      */
     private ListView<CheckBox> toDoList;
-    //private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
+    // private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
     private TextField newItemField;
     private DueDate dueDateComponent;
     private TextField itemPrio;
@@ -70,7 +70,6 @@ public class App {
     private BorderPane root;
     private BorderPane bottom;
     private List<ChecklistItem> checklistItems = new ArrayList<>();
-    
 
     public App(Stage stage, String username) {
         // root is the Root Border Pane
@@ -88,16 +87,16 @@ public class App {
 
         checklistItems = db.retrieveTasks(username);
         populateChecklist(checklistItems);
-        //updateScoresAndColors(tasks);
+        // updateScoresAndColors(tasks);
 
         newItemField = new TextField();
         newItemField.setPromptText("Enter a new item");
-        
+
         newItemErrorText = new Text();
 
         dueDateComponent = new DueDate();
         dueDateErrorText = new Text();
-        
+
         this.priority = new Priority(null);
         prioErrorText = new Text();
 
@@ -112,9 +111,7 @@ public class App {
         noteButton.setOnAction(e -> openNoteWindow());
         this.bottom.setTop(noteButton);
 
-        
-
-        this.score = new ScoreCounter();
+        this.score = new ScoreCounter(this.username);
         Text leftText = new Text(
                 this.username + "\nYour Score: " + this.score.getCounter() + "\nRank: " + this.score.rankScore());
         if (score.rankScore() == "Rookie") {
@@ -158,13 +155,12 @@ public class App {
 
         Button openChartButton = new Button("Open Score Chart");
         openChartButton.setOnAction(event -> {
-            scoreChartWindow.show(); 
+            scoreChartWindow.show();
         });
 
         // created a VBox to resolve issue of button overlapping
         VBox buttonbox = new VBox(timerButton, noteButton, openChartButton);
         this.bottom.setRight(buttonbox);
-        
 
     }
 
@@ -200,7 +196,7 @@ public class App {
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
-        LocalTime selectedTime = dueDateComponent.getTime(); 
+        LocalTime selectedTime = dueDateComponent.getTime();
 
         String prio = priority.getPriority();
 
@@ -224,35 +220,38 @@ public class App {
 
         if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
-            String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: " + prio;
+            String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: "
+                    + prio;
             ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false, true);
             db.insertTask(username, newItemText, selectedDate, selectedTime, prio, false, true);
             checklistItems.add(newItem);
 
-/* 
-            CheckBox newItemCheckbox = new CheckBox(combinedText);
-            newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
-            });*/
+            /*
+             * CheckBox newItemCheckbox = new CheckBox(combinedText);
+             * newItemCheckbox.selectedProperty().addListener((observable, oldValue,
+             * checked) -> {
+             * updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()),
+             * checked);
+             * });
+             */
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {
                 LocalDateTime itemDueDateTime = newItem.getDueDate().atTime(newItem.getDueTime());
-            if (isChecked) {
-                updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), true);
-                db.updateTask(username, newItemText, selectedDate, selectedTime, true, true);
-                newItem.setChecked(true); 
-                newItemCheckbox.setDisable(true); // Disable checkbox once checked
+                if (isChecked) {
+                    updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), true);
+                    db.updateTask(username, newItemText, selectedDate, selectedTime, true, true);
+                    newItem.setChecked(true);
+                    newItemCheckbox.setDisable(true); // Disable checkbox once checked
 
-            } else {
-                updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), false);
-                newItem.setChecked(false); 
-                newItemCheckbox.setDisable(false); // Enable checkbox if unchecked
+                } else {
+                    updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), false);
+                    newItem.setChecked(false);
+                    newItemCheckbox.setDisable(false); // Enable checkbox if unchecked
 
-            }
+                }
 
-            
-        });
+            });
 
             int firstCheckedIndex = 0;
             for (CheckBox checkbox : toDoList.getItems()) {
@@ -271,32 +270,31 @@ public class App {
         }
     }
 
-    
-
-     private void updateScoresAndColors(List<ChecklistItem> checklistItems) {
+    private void updateScoresAndColors(List<ChecklistItem> checklistItems) {
         // Check if any items are overdue and update their appearance
         for (ChecklistItem item : checklistItems) {
             if (!item.isChecked()) { // Check only if the item is not already checked
                 LocalDate dueDate = item.getDueDate();
                 LocalTime dueTime = item.getDueTime();
                 LocalDateTime dueDateTime = LocalDateTime.of(dueDate, dueTime);
-    
+
                 if (LocalDateTime.now().isAfter(dueDateTime) || LocalDate.now().isAfter(dueDate)) {
                     // Find the corresponding checkbox for the item
                     for (int i = 0; i < toDoList.getItems().size(); i++) {
                         CheckBox checkbox = toDoList.getItems().get(i);
                         String checkboxText = checkbox.getText();
-                        if (checkboxText.startsWith(item.getDescription()) && checkboxText.contains(item.getFormattedDateandTime()) && !checkbox.isSelected())  {
+                        if (checkboxText.startsWith(item.getDescription())
+                                && checkboxText.contains(item.getFormattedDateandTime()) && !checkbox.isSelected()) {
                             checkbox.setStyle("-fx-text-fill: red;"); // Turn the text color of overdue items to red
-                            checkbox.setSelected(true); 
+                            checkbox.setSelected(true);
                             checkbox.setDisable(true);
-                            item.setChecked(true); 
+                            item.setChecked(true);
                             item.setOnTime(false);
                             db.updateTask(username, item.getDescription(), dueDate, dueTime, true, false);
                         }
                     }
                 }
-            } 
+            }
 
         }
     }
@@ -455,15 +453,17 @@ public class App {
         noteStage.setTitle("Notes");
         noteStage.show();
     }
+
     private void saveNoteToDB(String note) {
         DB db = new DB();
         db.init();
         db.insertNote(this.username, note);
     }
+
     private void openNotesFromDB(TextArea noteTextArea) {
         DB db = new DB();
         db.init();
-        
+
         String notes = db.getNotes(this.username);
         noteTextArea.setText(notes);
     }
@@ -474,36 +474,35 @@ public class App {
             String description = item.getDescription();
             String priority = item.getPriority();
             boolean isChecked = item.isChecked();
-    
+
             // Create formatted date and time strings
             String formattedDateandTime = item.getFormattedDateandTime();
-    
+
             // Create combined text for the checklist item
             String combinedText = description + " - Due: " + formattedDateandTime + " - Priority: " + priority;
-    
+
             // Create a new CheckBox with combinedText
             CheckBox newItemCheckBox = new CheckBox(combinedText);
             newItemCheckBox.setSelected(isChecked); // Set its checked state
             newItemCheckBox.setDisable(isChecked);
-            if (!item.getOnTime()){
+            if (!item.getOnTime()) {
                 newItemCheckBox.setStyle("-fx-text-fill: red;");
             }
             // Add the new CheckBox to the checklist
             toDoList.getItems().add(newItemCheckBox);
-            
+
             // Add listener to handle score addition when item is checked
             newItemCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 LocalDateTime itemDueDateTime = item.getDueDate().atTime(item.getDueTime());
-            if (newValue) {
-                // Update the score counter and database when the item is checked
-                updateScoreCounter(item.getPriority(), itemDueDateTime.isBefore(LocalDateTime.now()), true);
-                item.setChecked(true);
-                item.setOnTime(false);
-                db.updateTask(username, item.getDescription(), item.getDueDate(), item.getDueTime(), true, false);
-                newItemCheckBox.setDisable(true);
-            }
-        });
+                if (newValue) {
+                    // Update the score counter and database when the item is checked
+                    updateScoreCounter(item.getPriority(), itemDueDateTime.isBefore(LocalDateTime.now()), true);
+                    item.setChecked(true);
+                    item.setOnTime(false);
+                    db.updateTask(username, item.getDescription(), item.getDueDate(), item.getDueTime(), true, false);
+                    newItemCheckBox.setDisable(true);
+                }
+            });
+        }
     }
 }
-}
-

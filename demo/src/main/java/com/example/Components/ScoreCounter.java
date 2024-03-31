@@ -6,17 +6,23 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.DB.DB;
+
 public class ScoreCounter {
     private IntegerProperty counter;
     private final Map<String, Integer> scoreMap = Map.of("low", 100, "medium", 300, "high", 500);
     private final Map<LocalDateTime, Integer> scoreData = new HashMap<>();
+    private DB db;
+    private String ID;
 
-    public ScoreCounter() {
+    public ScoreCounter(String ID) {
         this.counter = new SimpleIntegerProperty(0);
+        this.db = new DB();
+        this.ID = ID;
     }
 
     public String rankScore() {
-        int counterValue = counter.get(); // Get the integer value from the property
+        int counterValue = this.getCounter(); // Get the integer value from the property
         String rank = "";
         if (counterValue <= 500) {
             rank = "Rookie";
@@ -37,16 +43,18 @@ public class ScoreCounter {
     }
 
     public void addScore(String score) {
-        int currentCounter = counter.get(); // Get the current counter value
+        int currentCounter = this.getCounter(); // Get the current counter value
         int scoreToAdd = scoreMap.get(score.toLowerCase());
-        counter.set(currentCounter + scoreToAdd); // Set the updated value to the property
+        this.counter.set(currentCounter + scoreToAdd); // Set the updated value to the property
+        db.updateScore(this.ID, this.counter.get());
         scoreData.put(LocalDateTime.now(), currentCounter + scoreToAdd); // Record score data
     }
 
     public void subtractScore(String score) {
-        int currentCounter = counter.get(); // Get the current counter value
+        int currentCounter = this.getCounter(); // Get the current counter value
         int scoreToSubtract = scoreMap.get(score.toLowerCase());
-        counter.set(currentCounter - scoreToSubtract); // Set the updated value to the property
+        this.counter.set(currentCounter - scoreToSubtract); // Set the updated value to the property
+        db.updateScore(this.ID, this.counter.get());
         scoreData.put(LocalDateTime.now(), currentCounter - scoreToSubtract); // Record score data
     }
 
@@ -57,7 +65,8 @@ public class ScoreCounter {
     public LocalDateTime getTime() {
         return LocalDateTime.now(); // Return current time
     }
+
     public int getCounter() {
-        return counter.get();
+        return db.getScore(this.ID);
     }
 }
