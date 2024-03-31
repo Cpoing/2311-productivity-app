@@ -28,7 +28,7 @@ public class ChecklistItem {
         return dueDate;
     }
     // Getter for dueDate in String format
-    public String getFormattedDate() {
+    public String getFormattedDateandTime() {
     String formattedDate = dueDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
     String formattedTime = dueTime.format(DateTimeFormatter.ofPattern("HH:mm")); // Assuming time format is "hh:mm AM/PM"
     return formattedDate + " " + formattedTime;
@@ -41,7 +41,7 @@ public class ChecklistItem {
 
     // Getter method for priority
     public String getPriority() {
-        return priority.toLowerCase();
+        return priority;
     }
 
     // Getter method for isChecked
