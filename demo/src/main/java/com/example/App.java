@@ -1,10 +1,13 @@
 package com.example;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Components.ChecklistItem;
 import com.example.Components.DueDate;
 import com.example.Components.Notes;
 import com.example.Components.Priority;
@@ -60,6 +63,7 @@ public class App {
     private String username;
     private BorderPane root;
     private BorderPane bottom;
+    private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
 
     public App(Stage stage, String username) {
         // root is the Root Border Pane
@@ -180,6 +184,7 @@ public class App {
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
+        LocalTime selectedTime = dueDateComponent.getTime(); 
 
         String prio = priority.getPriority();
 
@@ -203,12 +208,33 @@ public class App {
 
         if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
-            String combinedText = newItemText + " - Due: " + formattedDate + " - Priority: " + prio;
+            String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: " + prio;
+            ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false);
+            checklistItems.add(newItem);
 
+/* 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(prio, selectedDate.isBefore(LocalDate.now()), checked);
-            });
+                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
+            });*/
+
+            CheckBox newItemCheckbox = new CheckBox(combinedText);
+            newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {
+                LocalDateTime itemDueDateTime = newItem.getDueDate().atTime(newItem.getDueTime());
+            if (isChecked) {
+                updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), true);
+                newItem.setChecked(true); 
+                newItemCheckbox.setDisable(true); // Disable checkbox once checked
+
+            } else {
+                updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), false);
+                newItem.setChecked(false); 
+                newItemCheckbox.setDisable(false); // Enable checkbox if unchecked
+
+            }
+
+            
+        });
 
             int firstCheckedIndex = 0;
             for (CheckBox checkbox : toDoList.getItems()) {
