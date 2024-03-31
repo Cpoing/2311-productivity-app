@@ -148,17 +148,19 @@ public class DB {
 
 
     public String getNotes(String id) {
-        try{
+        try {
             init();
-            prestatement = connection.prepareStatement("SELECT \"note\" FROM notes WHERE \"ID\" =?");
+            prestatement = connection.prepareStatement("SELECT \"note\" FROM notes WHERE \"ID\" =? ORDER BY number DESC LIMIT 1");
             prestatement.setString(1, id);
             result = prestatement.executeQuery();
-            if(result.next()) {
+            if (result.next()) {
                 return result.getString("note");
+            } else {
+                return ""; // No notes found
             }
-            }catch(Exception e){
-                System.out.println("Failed to get notes");
-            }
+        } catch (Exception e) {
+            System.out.println("Failed to get notes");
             return "";
+        }
     }
 }

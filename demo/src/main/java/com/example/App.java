@@ -354,6 +354,7 @@ public class App {
 
         TextArea noteTextArea = new TextArea();
         noteLayout.setCenter(noteTextArea);
+        openNotesFromDB(noteTextArea);
 
         Button saveButton = new Button("Save");
         Button closeButton = new Button("Close");
@@ -384,6 +385,13 @@ public class App {
         DB db = new DB();
         db.init();
         db.insertNote(this.username, note);
+    }
+    private void openNotesFromDB(TextArea noteTextArea) {
+        DB db = new DB();
+        db.init();
+        
+        String notes = db.getNotes(this.username);
+        noteTextArea.setText(notes);
     }
 
 }
