@@ -3,19 +3,13 @@ package com.example;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ArrayList;
 
 import com.example.Components.ChecklistItem;
 import com.example.Components.DueDate;
-import com.example.Components.Notes;
 import com.example.Components.Priority;
 import com.example.Components.ScoreChartWindow;
 import com.example.Components.ScoreCounter;
-
-
 
 import java.awt.Toolkit;
 import javafx.scene.layout.VBox;
@@ -27,11 +21,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -41,8 +32,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class App {
 

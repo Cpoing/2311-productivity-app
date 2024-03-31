@@ -21,6 +21,7 @@ public class DB {
         this.result = null;
         this.prestatement = null;
     }
+
     /**
      * init is the method that make connection between Java and the postgreSQL.
      * @return true if connection was successfully made.
@@ -86,6 +87,7 @@ public class DB {
         }
         return "";
     }
+    
     /**
      * getID is the method that gets the username based on the username.
      * @param id is the username.
