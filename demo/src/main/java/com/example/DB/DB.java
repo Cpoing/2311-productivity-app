@@ -1,6 +1,14 @@
 package com.example.DB;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.Components.ChecklistItem;
+
+import javafx.concurrent.Task;
 
 /**
  * This class is about making database for the application.
@@ -124,4 +132,72 @@ public class DB {
         }
         return 0;
     }
+
+    public void insertTask(String username, String description, LocalDate dueDate, LocalTime dueTime, String priority, boolean isChecked, boolean onTime) {
+    try {
+        init();
+        String sql = "INSERT INTO task_table (\"ID\", description, due_date, due_time, priority, is_checked, on_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        prestatement = connection.prepareStatement(sql);
+        prestatement.setString(1, username);
+        prestatement.setString(2, description);
+        prestatement.setDate(3, Date.valueOf(dueDate)); // Convert LocalDate to SQL Date
+        prestatement.setTime(4, Time.valueOf(dueTime)); // Convert LocalTime to SQL Time
+        prestatement.setString(5, priority);
+        prestatement.setBoolean(6, isChecked);
+        prestatement.setBoolean(7, onTime);
+        prestatement.executeUpdate();
+        System.out.println("Task inserted successfully.");
+    } catch (SQLException e) {
+        System.out.println("Failed to insert task: " + e.getMessage());
+    }
+}
+    public void updateTask(String username, String description, LocalDate dueDate, LocalTime dueTime, boolean isChecked, boolean onTime) {
+    try {
+        init();
+        String sql = "UPDATE task_table SET is_checked = ?, on_time = ? WHERE \"ID\" = ? AND description = ? AND due_date = ? AND due_time = ?";
+        prestatement = connection.prepareStatement(sql);
+        prestatement.setBoolean(1, isChecked);
+        prestatement.setBoolean(2, onTime);
+        prestatement.setString(3, username);
+        prestatement.setString(4, description);
+        prestatement.setDate(5, Date.valueOf(dueDate));
+        prestatement.setTime(6, Time.valueOf(dueTime));
+
+        int rowsUpdated = prestatement.executeUpdate();
+        if (rowsUpdated > 0) {
+            System.out.println("Task updated successfully.");
+        } else {
+            System.out.println("No task found with the given username, description, and due date.");
+        }
+    } catch (SQLException e) {
+        System.out.println("Failed to update task: " + e.getMessage());
+    }
+}
+public List<ChecklistItem> retrieveTasks(String username) {
+    List<ChecklistItem> tasks = new ArrayList<>();
+    try {
+        init();
+        String sql = "SELECT description, due_date, due_time, priority, is_checked, on_time FROM task_table WHERE \"ID\" = ?";
+        prestatement = connection.prepareStatement(sql);
+        prestatement.setString(1, username);
+        result = prestatement.executeQuery();
+        
+        while (result.next()) {
+            String description = result.getString("description");
+            LocalDate dueDate = result.getDate("due_date").toLocalDate();
+            LocalTime dueTime = result.getTime("due_time").toLocalTime();
+            String priority = result.getString("priority");
+            boolean isChecked = result.getBoolean("is_checked");
+            boolean onTime = result.getBoolean("on_time");
+            
+            // Create a new ChecklistItem object and add it to the list
+            ChecklistItem item = new ChecklistItem(description, dueDate, dueTime, priority, isChecked, onTime);
+            tasks.add(item);
+        }
+    } catch (SQLException e) {
+        System.out.println("Failed to retrieve tasks: " + e.getMessage());
+    }
+    return tasks;
+}
+
 }
