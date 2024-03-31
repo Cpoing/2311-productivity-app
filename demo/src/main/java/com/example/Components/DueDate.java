@@ -2,11 +2,11 @@ package com.example.Components;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
 
@@ -21,9 +21,13 @@ import java.time.LocalTime;
  */
 public class DueDate extends VBox {
     private LocalDate dueDate;
+    private LocalTime dueTime;
     private DatePicker datePicker;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private String errorMessage;
+    private ComboBox<Integer> hourComboBox;
+    private ComboBox<Integer> minuteComboBox;
+    private ComboBox<String> amPmComboBox;
 
 /**
  * DueDate is the constructor for the DueDate Class
@@ -32,8 +36,52 @@ public class DueDate extends VBox {
  */    public DueDate() {
         datePicker = new DatePicker();
         datePicker.setPromptText("yyyy/MM/dd");
+        hourComboBox = new ComboBox<>();
+        minuteComboBox = new ComboBox<>();
+        amPmComboBox = new ComboBox<>();
 
-        getChildren().addAll(datePicker);
+        hourComboBox.setPromptText("Hour");
+        minuteComboBox.setPromptText("Minute");
+        amPmComboBox.setPromptText("AM/PM");
+
+        for (int hour = 1; hour <= 12; hour++) {
+            hourComboBox.getItems().add(hour);
+        }
+        for (int minute = 0; minute < 60; minute += 5) {
+            minuteComboBox.getItems().add(minute);
+        }
+        
+        amPmComboBox.getItems().addAll("AM", "PM");
+        // Create an HBox for the date picker
+        HBox datePickerBox = new HBox(datePicker);
+        datePickerBox.setSpacing(10);
+
+        // Create an HBox for the time components
+        HBox timeBox = new HBox(hourComboBox, minuteComboBox, amPmComboBox);
+        timeBox.setSpacing(5);
+
+        // Create a VBox to stack the date picker and time components vertically
+        VBox dateTimeBox = new VBox(datePickerBox, timeBox);
+        dateTimeBox.setSpacing(5);
+
+        // Now, add the VBox containing date picker and time components to the parent VBox
+        getChildren().addAll(dateTimeBox);
+    }
+
+    public LocalTime getTime() {
+        int hour = hourComboBox.getValue();
+        int minute = minuteComboBox.getValue();
+        
+        // Adjust hour for 12-hour format
+        if (amPmComboBox.getValue().equals("PM") && hour != 12) {
+            hour += 12; // Convert to 24-hour format for PM, except if it's 12 PM
+        } else if (amPmComboBox.getValue().equals("AM") && hour == 12) {
+            hour = 0; // Convert 12 AM to 00 (midnight)
+        }
+
+        dueTime = LocalTime.of(hour % 24, minute);
+        
+        return dueTime; // Ensure hour is within 0-23 range
     }
 
     public DueDate(String dateString) {
@@ -62,8 +110,8 @@ public class DueDate extends VBox {
      */
     public boolean isValid() {
         if (dueDate != null) {
-            LocalDate currentDate = LocalDate.now();
-            if (currentDate.isAfter(dueDate)) {
+            LocalDateTime dueDateTime = LocalDateTime.of(dueDate, dueTime);
+            if (dueDateTime.isBefore(LocalDateTime.now())) {
                 errorMessage = "Date has already passed";
                 return false;
             } else {
@@ -73,6 +121,8 @@ public class DueDate extends VBox {
         errorMessage = "Date is invalid or Date is empty";
         return false;
     }
+
+
     public DatePicker getDatePicker() {
         return datePicker;
     }

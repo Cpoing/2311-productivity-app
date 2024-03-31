@@ -1,15 +1,21 @@
 package com.example;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
+import com.example.Components.ChecklistItem;
 import com.example.Components.DueDate;
 import com.example.Components.Notes;
 import com.example.Components.Priority;
 import com.example.Components.ScoreChartWindow;
 import com.example.Components.ScoreCounter;
+
+
 
 import java.awt.Toolkit;
 import javafx.scene.layout.VBox;
@@ -26,6 +32,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -49,6 +58,7 @@ public class App {
      * attributes.
      */
     private ListView<CheckBox> toDoList;
+    private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
     private TextField newItemField;
     private DueDate dueDateComponent;
     private TextField itemPrio;
@@ -56,6 +66,7 @@ public class App {
     private Text newItemErrorText, dueDateErrorText, prioErrorText;
     private ScoreCounter score;
     private TimerDisplay disp;
+    private Timeline timeline; 
     private String username;
     private BorderPane root;
     private BorderPane bottom;
@@ -66,6 +77,10 @@ public class App {
         // bottom is border pane for the bottom portion so that elements can be aligned
         // at top-right, top-left, bottom-left, bottom-right
         this.bottom = new BorderPane();
+
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateScoresAndColors()));
+    timeline.setCycleCount(Timeline.INDEFINITE);
+    timeline.play(); // Start the timeline
         this.username = username;
 
         toDoList = new ListView<>();
@@ -179,6 +194,7 @@ public class App {
     private void addNewItem() {
         String newItemText = newItemField.getText().trim();
         LocalDate selectedDate = dueDateComponent.getDatePicker().getValue(); // Retrieve selected date
+        LocalTime selectedTime = dueDateComponent.getTime(); 
 
         String prio = priority.getPriority();
 
@@ -202,12 +218,32 @@ public class App {
 
         if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
-            String combinedText = newItemText + " - Due: " + formattedDate + " - Priority: " + prio;
-
+            String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: " + prio;
+            ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false);
+            checklistItems.add(newItem);
+/* 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, checked) -> {
-                updateScoreCounter(prio, selectedDate.isBefore(LocalDate.now()), checked);
-            });
+                updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()), checked);
+            });*/
+
+            CheckBox newItemCheckbox = new CheckBox(combinedText);
+            newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {
+                LocalDateTime itemDueDateTime = newItem.getDueDate().atTime(newItem.getDueTime());
+            if (isChecked) {
+                updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), true);
+                newItem.setChecked(true); 
+                newItemCheckbox.setDisable(true); // Disable checkbox once checked
+
+            } else {
+                updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), false);
+                newItem.setChecked(false); 
+                newItemCheckbox.setDisable(false); // Enable checkbox if unchecked
+
+            }
+
+            
+        });
 
             int firstCheckedIndex = 0;
             for (CheckBox checkbox : toDoList.getItems()) {
@@ -226,6 +262,34 @@ public class App {
         }
     }
 
+    
+    
+     private void updateScoresAndColors() {
+        // Check if any items are overdue and update their appearance
+        for (ChecklistItem item : checklistItems) {
+            if (!item.isChecked()) { // Check only if the item is not already checked
+                LocalDate dueDate = item.getDueDate();
+                LocalTime dueTime = item.getDueTime();
+                LocalDateTime dueDateTime = LocalDateTime.of(dueDate, dueTime);
+    
+                if (LocalDateTime.now().isAfter(dueDateTime) || LocalDate.now().isAfter(dueDate)) {
+                    // Find the corresponding checkbox for the item
+                    for (int i = 0; i < toDoList.getItems().size(); i++) {
+                        CheckBox checkbox = toDoList.getItems().get(i);
+                        String checkboxText = checkbox.getText();
+                        if (checkboxText.startsWith(item.getDescription()) && checkboxText.contains(item.getFormattedDateandTime()) && !checkbox.isSelected())  {
+                            checkbox.setStyle("-fx-text-fill: red;"); // Turn the text color of overdue items to red
+                            checkbox.setSelected(true); 
+                            item.setChecked(true); 
+                
+                        }
+                    }
+                }
+            } 
+
+        }
+    }
+
     /**
      * updateScoreCounter is the method used to update the users' score
      * 
@@ -237,14 +301,10 @@ public class App {
      *                      or not to avoid duplicate additions to the score.
      */
     private void updateScoreCounter(String priorityText, boolean dueDatePassed, boolean ischecked) {
-        if (dueDatePassed) {
-            this.score.subtractScore(priorityText);
-        } else {
-            if (ischecked) {
-                this.score.addScore(priorityText);
-            } else {
-                this.score.subtractScore(priorityText);
-            }
+        if (!dueDatePassed) {
+            score.addScore(priorityText); // Add score only if the item is checked and the due date hasn't passed
+        } else if (dueDatePassed) {
+            score.subtractScore(priorityText); // Deduct score if the item is unchecked and the due date has passed
         }
 
         Text scoreCount = new Text(
@@ -379,3 +439,4 @@ public class App {
     }
 
 }
+
