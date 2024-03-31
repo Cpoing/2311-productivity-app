@@ -9,13 +9,15 @@ public class ChecklistItem {
     private LocalTime dueTime;
     private String priority;
     private boolean isChecked;
+    private boolean onTime;
 
-    public ChecklistItem(String description, LocalDate dueDate, LocalTime dueTime, String priority, boolean isChecked) {
+    public ChecklistItem(String description, LocalDate dueDate, LocalTime dueTime, String priority, boolean isChecked, boolean onTime) {
         this.description = description;
         this.dueDate = dueDate;
         this.dueTime = dueTime;
         this.priority = priority;
         this.isChecked = isChecked;
+        this.onTime = onTime;
     }
 
     // Getter method for description
@@ -52,5 +54,15 @@ public class ChecklistItem {
     // Setter method for isChecked
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    // Getter method for onTime
+    public boolean getOnTime() {
+        return onTime;
+    }
+
+    //Setter method for onTime
+    public void setOnTime(boolean status){
+        onTime = status;
     }
 }

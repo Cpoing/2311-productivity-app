@@ -30,6 +30,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -53,17 +56,21 @@ public class App {
      * attributes.
      */
     private ListView<CheckBox> toDoList;
+    //private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
     private TextField newItemField;
     private DueDate dueDateComponent;
     private TextField itemPrio;
+    private DB db;
     private Priority priority;
     private Text newItemErrorText, dueDateErrorText, prioErrorText;
     private ScoreCounter score;
     private TimerDisplay disp;
     private String username;
+    private Timeline timeline;
     private BorderPane root;
     private BorderPane bottom;
-    private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
+    private List<ChecklistItem> checklistItems = new ArrayList<>();
+    
 
     public App(Stage stage, String username) {
         // root is the Root Border Pane
@@ -71,17 +78,26 @@ public class App {
         // bottom is border pane for the bottom portion so that elements can be aligned
         // at top-right, top-left, bottom-left, bottom-right
         this.bottom = new BorderPane();
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateScoresAndColors(checklistItems)));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play(); // Start the timeline
         this.username = username;
 
         toDoList = new ListView<>();
+        db = new DB();
+
+        checklistItems = db.retrieveTasks(username);
+        populateChecklist(checklistItems);
+        //updateScoresAndColors(tasks);
 
         newItemField = new TextField();
         newItemField.setPromptText("Enter a new item");
+        
         newItemErrorText = new Text();
 
         dueDateComponent = new DueDate();
         dueDateErrorText = new Text();
-
+        
         this.priority = new Priority(null);
         prioErrorText = new Text();
 
@@ -209,7 +225,8 @@ public class App {
         if (!newItemText.isEmpty() && dueDateComponent.isValid()) {
             String formattedDate = dueDateComponent.getFormattedDate();
             String combinedText = newItemText + " - Due: " + formattedDate + " " + selectedTime + " - Priority: " + prio;
-            ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false);
+            ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false, true);
+            db.insertTask(username, newItemText, selectedDate, selectedTime, prio, false, true);
             checklistItems.add(newItem);
 
 /* 
@@ -223,6 +240,7 @@ public class App {
                 LocalDateTime itemDueDateTime = newItem.getDueDate().atTime(newItem.getDueTime());
             if (isChecked) {
                 updateScoreCounter(prio, itemDueDateTime.isBefore(LocalDateTime.now()), true);
+                db.updateTask(username, newItemText, selectedDate, selectedTime, true, true);
                 newItem.setChecked(true); 
                 newItemCheckbox.setDisable(true); // Disable checkbox once checked
 
@@ -249,6 +267,36 @@ public class App {
             newItemField.clear();
             dueDateComponent.getDatePicker().setValue(null); // Clear selected date
             priority.setPriority(null);
+
+        }
+    }
+
+    
+
+     private void updateScoresAndColors(List<ChecklistItem> checklistItems) {
+        // Check if any items are overdue and update their appearance
+        for (ChecklistItem item : checklistItems) {
+            if (!item.isChecked()) { // Check only if the item is not already checked
+                LocalDate dueDate = item.getDueDate();
+                LocalTime dueTime = item.getDueTime();
+                LocalDateTime dueDateTime = LocalDateTime.of(dueDate, dueTime);
+    
+                if (LocalDateTime.now().isAfter(dueDateTime) || LocalDate.now().isAfter(dueDate)) {
+                    // Find the corresponding checkbox for the item
+                    for (int i = 0; i < toDoList.getItems().size(); i++) {
+                        CheckBox checkbox = toDoList.getItems().get(i);
+                        String checkboxText = checkbox.getText();
+                        if (checkboxText.startsWith(item.getDescription()) && checkboxText.contains(item.getFormattedDateandTime()) && !checkbox.isSelected())  {
+                            checkbox.setStyle("-fx-text-fill: red;"); // Turn the text color of overdue items to red
+                            checkbox.setSelected(true); 
+                            checkbox.setDisable(true);
+                            item.setChecked(true); 
+                            item.setOnTime(false);
+                            db.updateTask(username, item.getDescription(), dueDate, dueTime, true, false);
+                        }
+                    }
+                }
+            } 
 
         }
     }
@@ -420,4 +468,42 @@ public class App {
         noteTextArea.setText(notes);
     }
 
+    private void populateChecklist(List<ChecklistItem> tasks) {
+        // Populate the checklist with tasks
+        for (ChecklistItem item : tasks) {
+            String description = item.getDescription();
+            String priority = item.getPriority();
+            boolean isChecked = item.isChecked();
+    
+            // Create formatted date and time strings
+            String formattedDateandTime = item.getFormattedDateandTime();
+    
+            // Create combined text for the checklist item
+            String combinedText = description + " - Due: " + formattedDateandTime + " - Priority: " + priority;
+    
+            // Create a new CheckBox with combinedText
+            CheckBox newItemCheckBox = new CheckBox(combinedText);
+            newItemCheckBox.setSelected(isChecked); // Set its checked state
+            newItemCheckBox.setDisable(isChecked);
+            if (!item.getOnTime()){
+                newItemCheckBox.setStyle("-fx-text-fill: red;");
+            }
+            // Add the new CheckBox to the checklist
+            toDoList.getItems().add(newItemCheckBox);
+            
+            // Add listener to handle score addition when item is checked
+            newItemCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                LocalDateTime itemDueDateTime = item.getDueDate().atTime(item.getDueTime());
+            if (newValue) {
+                // Update the score counter and database when the item is checked
+                updateScoreCounter(item.getPriority(), itemDueDateTime.isBefore(LocalDateTime.now()), true);
+                item.setChecked(true);
+                item.setOnTime(false);
+                db.updateTask(username, item.getDescription(), item.getDueDate(), item.getDueTime(), true, false);
+                newItemCheckBox.setDisable(true);
+            }
+        });
+    }
 }
+}
+
