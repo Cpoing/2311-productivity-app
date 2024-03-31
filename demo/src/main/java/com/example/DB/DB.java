@@ -1,6 +1,9 @@
 package com.example.DB;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class is about making database for the application.
@@ -29,7 +32,7 @@ public class DB {
     public boolean init(){
         String url = "jdbc:postgresql://localhost:5432/postgres";
 		String user = "postgres";
-		String password = "taehyun905";
+		String password = "pizzaman14";
 
         try{
             Class.forName("org.postgresql.Driver");
@@ -123,5 +126,39 @@ public class DB {
             System.out.println("Failed to get number of users");
         }
         return 0;
+    }
+    
+
+
+    public void insertNote(String id, String note) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("INSERT INTO notes (\"ID\", \"note\")");
+        sql.append("VALUES (?,?)");
+     
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            stmt.setString(1, id);
+            stmt.setString(2, note);
+            stmt.executeUpdate();
+            System.out.println("Successfully inserted note");
+        } catch (SQLException e) {
+            System.err.println("Failed to insert note: " + e.getMessage());
+        }
+    }
+
+
+
+    public String getNotes(String id) {
+        try{
+            init();
+            prestatement = connection.prepareStatement("SELECT \"note\" FROM notes WHERE \"ID\" =?");
+            prestatement.setString(1, id);
+            result = prestatement.executeQuery();
+            if(result.next()) {
+                return result.getString("note");
+            }
+            }catch(Exception e){
+                System.out.println("Failed to get notes");
+            }
+            return "";
     }
 }

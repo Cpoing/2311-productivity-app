@@ -10,6 +10,7 @@ import com.example.Components.Notes;
 import com.example.Components.Priority;
 import com.example.Components.ScoreChartWindow;
 import com.example.Components.ScoreCounter;
+import com.example.DB.DB;
 
 import java.awt.Toolkit;
 import javafx.scene.layout.VBox;
@@ -366,8 +367,10 @@ public class App {
         saveButton.setOnAction(e -> {
 
             String noteContent = noteTextArea.getText();
+            saveNoteToDB(noteContent);
 
             System.out.println("Note saved: " + noteContent);
+
         });
 
         closeButton.setOnAction(e -> noteStage.close());
@@ -376,6 +379,11 @@ public class App {
         noteStage.setScene(noteScene);
         noteStage.setTitle("Notes");
         noteStage.show();
+    }
+    private void saveNoteToDB(String note) {
+        DB db = new DB();
+        db.init();
+        db.insertNote(this.username, note);
     }
 
 }
