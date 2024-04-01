@@ -7,12 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Components.ChecklistItem;
-import com.example.Components.DueDate;
-import com.example.Components.Notes;
-import com.example.Components.Priority;
-import com.example.Components.ScoreChartWindow;
-import com.example.Components.ScoreCounter;
+import com.example.Components.*;
 import com.example.DB.DB;
 
 import java.awt.Toolkit;
@@ -158,8 +153,10 @@ public class App {
             scoreChartWindow.show();
         });
 
+        Button musicP = new Button("Open Music Player");
+        musicP.setOnAction(event -> openMP());
         // created a VBox to resolve issue of button overlapping
-        VBox buttonbox = new VBox(timerButton, noteButton, openChartButton);
+        VBox buttonbox = new VBox(timerButton, noteButton, openChartButton,musicP);
         this.bottom.setRight(buttonbox);
 
     }
@@ -411,6 +408,20 @@ public class App {
         }
     }
 
+    private void openMP(){
+        Stage musicPlayerStage = new Stage();
+        MusicPlayer musicPlayerComponent = new MusicPlayer();
+        Scene musicPlayerScene = new Scene(musicPlayerComponent);
+
+        musicPlayerStage.setScene(musicPlayerScene);
+        musicPlayerStage.setTitle("Music Player");
+        musicPlayerStage.show();
+
+        musicPlayerStage.setOnCloseRequest(event -> {
+            musicPlayerComponent.onClose();
+
+        });
+    }
     /**
      * openNoteWindow is the class for the note feature
      * 

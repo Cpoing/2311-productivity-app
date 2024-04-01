@@ -4,6 +4,8 @@ module com.example {
 	requires javafx.graphics;
     requires java.sql;
     requires java.desktop;
+    requires javafx.media;
+
 
     opens com.example to javafx.fxml;
  

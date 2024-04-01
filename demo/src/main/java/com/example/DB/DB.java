@@ -42,7 +42,7 @@ public class DB {
     public boolean init() {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
-        String password = "taehyun905";
+        String password = "12345678";
 
         try {
             Class.forName("org.postgresql.Driver");
