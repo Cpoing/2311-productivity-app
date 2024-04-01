@@ -3,7 +3,6 @@ package com.example;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +19,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -34,8 +30,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class App {
 
@@ -161,28 +155,6 @@ public class App {
 
     }
 
-    /*
-     * private void openPomodoroTimer(Stage timerStage) {
-     * BorderPane winTop = new BorderPane();
-     * BorderPane winBott = new BorderPane();
-     * Scene pomdoroScene = new Scene(winTop, 600, 400);
-     * 
-     * //Button shortBreak = new Button("Short Break"); // 5 Minutes
-     * //Button longBreak = new Button("Long Break"); // 10 Minutes
-     * 
-     * final int normalSeconds = 1500; // 25 minutes * 60 seconds = 1500 seconds
-     * //final int shortBreakSeconds = 300; // 5 minutes * 60 seconds = 300 seconds
-     * //final int longBreakSeconds = 600; // 10 minutes * 60 seconds = 600 seconds
-     * 
-     * Timer myTimer = new Timer();
-     * myTimer.scheduleAtFixedRate(myTimerTask, 0, 1000);
-     * 
-     * timerStage.setTitle("Pomodoro Timer");
-     * timerStage.setScene(pomdoroScene);
-     * timerStage.show();
-     * }
-     */
-
     /**
      * addNewItem is the method used to add a new task into the checklist.
      * 
@@ -222,15 +194,6 @@ public class App {
             ChecklistItem newItem = new ChecklistItem(newItemText, selectedDate, selectedTime, prio, false, true);
             db.insertTask(username, newItemText, selectedDate, selectedTime, prio, false, true);
             checklistItems.add(newItem);
-
-            /*
-             * CheckBox newItemCheckbox = new CheckBox(combinedText);
-             * newItemCheckbox.selectedProperty().addListener((observable, oldValue,
-             * checked) -> {
-             * updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()),
-             * checked);
-             * });
-             */
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {

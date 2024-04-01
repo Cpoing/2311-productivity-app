@@ -45,18 +45,3 @@ public class PomodoroTimer {
 		return timeInMinutes;
 	}
 }
-// Below is an iterative approach for the timer in a main class
-
-/**long startSysTime = System.currentTimeMillis();
-for(int i = 0; i < 62; i++){
-     try{
-        Thread.sleep(1000);
-    } catch(InterruptedException e){
-        Thread.currentThread().interrupt();
-    }
-    long endSysTime = System.currentTimeMillis();
-    long runTime = endSysTime - startSysTime;
-    int timeInSeconds = ((int)runTime / 1000);
-    int timeInMinutes = timeInSeconds / 60;
-    System.out.println(timeInMinutes + ":" + timeInSeconds%60);
-} **/

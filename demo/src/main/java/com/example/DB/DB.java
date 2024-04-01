@@ -2,16 +2,12 @@ package com.example.DB;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.example.Components.ChecklistItem;
-import com.example.Components.ScoreCounter;
 
-import javafx.concurrent.Task;
 
 /**
  * This class is about making database for the application.
@@ -42,7 +38,7 @@ public class DB {
     public boolean init() {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
-        String password = "12345678";
+        String password = "taehyun905";
 
         try {
             Class.forName("org.postgresql.Driver");
