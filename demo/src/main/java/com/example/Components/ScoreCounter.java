@@ -11,7 +11,7 @@ import com.example.DB.DB;
 public class ScoreCounter {
     private IntegerProperty counter;
     private final Map<String, Integer> scoreMap = Map.of("low", 100, "medium", 300, "high", 500);
-    public Map<LocalDateTime, Integer> scoreData = new HashMap<>();
+    private final Map<LocalDateTime, Integer> scoreData = new HashMap<>();
     private DB db;
     private String ID;
 

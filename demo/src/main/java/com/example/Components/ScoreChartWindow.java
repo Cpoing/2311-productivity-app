@@ -13,18 +13,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.example.DB.DB;
-
 import javafx.application.Platform;
 
 
 public class ScoreChartWindow extends Stage {
     private ScoreCounter scores;
-    private String id;
 
-    public ScoreChartWindow(ScoreCounter scores, String id) {
+    public ScoreChartWindow(ScoreCounter scores) {
         this.scores = scores;
-        this.id = id;
         init();
     }
 
@@ -47,7 +43,7 @@ public class ScoreChartWindow extends Stage {
         Scene scene = new Scene(lineChart, 800, 600);
         setScene(scene);
 
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm");
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a");
 
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -58,14 +54,8 @@ public class ScoreChartWindow extends Stage {
             Platform.runLater(() -> {
                 Date now = new Date();
                 series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), random));
-                saveScoreDataToDB(simpleDateFormat.format(now), random);
             });
         }, 0, 1, TimeUnit.SECONDS);
-    }
-
-    private void saveScoreDataToDB(String time, Integer score) {
-        DB db = new DB();
-        db.init();
-        db.insertScoreData(id, time, score);
-    }
+    
+}
 }
