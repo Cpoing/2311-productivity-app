@@ -78,4 +78,16 @@ public class loginTest {
 		assertFalse(log.loginTo("123", "thisispineapple"));
 	}
 
+	@Test
+	public void test_6() {
+		User user = new User("", "Morethan101");
+		assertThrows(IllegalArgumentException.class, ()-> log.register(user));
+	}
+
+	@Test
+	public void test_7() {
+		User user = new User("12345", "lessthan1");
+		assertThrows(IllegalArgumentException.class, ()-> log.register(user));
+	}
+
 }
