@@ -9,6 +9,10 @@
 [![Watch the video](https://github.com/AntMa4002/2311-productivity-app/assets/114103022/4ee77143-eb48-44bf-898b-29a7f73fd19a
 )](https://youtu.be/b8aDrwF0bdo)
 
+## Delivery 2 Meeting Video
+[![Watch the video](https://github.com/Cpoing/2311-productivity-app/assets/114103022/77499668-6c8c-4b21-8f7c-231192ef43a9
+)](https://youtu.be/-ZKdm26vPqA)
+
 ITR3:
 
 Major changes:
