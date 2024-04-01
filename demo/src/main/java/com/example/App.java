@@ -1,18 +1,14 @@
 package com.example;
+import com.example.Components.*;
 
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Components.ChecklistItem;
-import com.example.Components.DueDate;
-import com.example.Components.Notes;
-import com.example.Components.Priority;
-import com.example.Components.ScoreChartWindow;
-import com.example.Components.ScoreCounter;
 import com.example.DB.DB;
 
 import java.awt.Toolkit;
@@ -25,11 +21,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -39,8 +32,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class App {
 
@@ -56,10 +47,10 @@ public class App {
      * attributes.
      */
     private ListView<CheckBox> toDoList;
-    // private ArrayList<ChecklistItem> checklistItems = new ArrayList<>();
+
     private TextField newItemField;
     private DueDate dueDateComponent;
-    private TextField itemPrio;
+
     private DB db;
     private Priority priority;
     private Text newItemErrorText, dueDateErrorText, prioErrorText;
@@ -71,7 +62,7 @@ public class App {
     private BorderPane bottom;
     private List<ChecklistItem> checklistItems = new ArrayList<>();
 
-    public App(Stage stage, String username) {
+    public App(Stage stage, String username) throws IOException {
         // root is the Root Border Pane
         this.root = new BorderPane();
         // bottom is border pane for the bottom portion so that elements can be aligned
@@ -158,8 +149,13 @@ public class App {
             scoreChartWindow.show();
         });
 
+
+
+        Button musicP = new Button("Open Music Player");
+       musicP.setOnAction(event -> openMP());
+
         // created a VBox to resolve issue of button overlapping
-        VBox buttonbox = new VBox(timerButton, noteButton, openChartButton);
+        VBox buttonbox = new VBox(timerButton, noteButton, openChartButton,musicP);
         this.bottom.setRight(buttonbox);
 
     }
@@ -226,14 +222,7 @@ public class App {
             db.insertTask(username, newItemText, selectedDate, selectedTime, prio, false, true);
             checklistItems.add(newItem);
 
-            /*
-             * CheckBox newItemCheckbox = new CheckBox(combinedText);
-             * newItemCheckbox.selectedProperty().addListener((observable, oldValue,
-             * checked) -> {
-             * updateScoreCounter(priorityText, selectedDate.isBefore(LocalDate.now()),
-             * checked);
-             * });
-             */
+
 
             CheckBox newItemCheckbox = new CheckBox(combinedText);
             newItemCheckbox.selectedProperty().addListener((observable, oldValue, isChecked) -> {
@@ -410,6 +399,30 @@ public class App {
             return time;
         }
     }
+
+
+    private void openMP(){
+        Stage musicPlayerStage = new Stage();
+        MusicPlayer musicPlayerComponent = new MusicPlayer();
+        Scene musicPlayerScene = new Scene(musicPlayerComponent);
+
+        musicPlayerStage.setScene(musicPlayerScene);
+        musicPlayerStage.setTitle("Music Player");
+        musicPlayerStage.show();
+
+        musicPlayerStage.setOnCloseRequest(event -> {
+            musicPlayerComponent.onClose();
+
+        });
+    }
+
+
+
+
+
+
+
+
 
     /**
      * openNoteWindow is the class for the note feature

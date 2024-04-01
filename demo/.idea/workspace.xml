@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="012ec447-29fd-4b20-b2c7-3c7c10ae7f4a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Colorful-Flowers(chosic.com).mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Components/MusicPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Components/headphones-png-20177.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/DB/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/DB/DB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/App$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/App$TimerDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/App$TimerDisplay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/ChecklistItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/ChecklistItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/DueDate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/DueDate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/Notes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/Notes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/PomodoroTimer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/PomodoroTimer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/Priority.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/Priority.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/ScoreCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/ScoreCounter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/Components/login.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/Components/login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/LoginController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/LoginController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/LoginController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/LoginController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/LoginView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/RegisterController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/RegisterController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/RegisterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/RegisterController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/RegisterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/RegisterView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2eTMLnvVU41brBTY8sRg5lEbv6k" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Abhishek Lal George/Desktop/2311repo/2311-productivity-app/2311-productivity-app/demo/src/main/java/com/example/Components/music.fxml",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.JavaFX"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Abhishek Lal George\Desktop\2311repo\2311-productivity-app\2311-productivity-app\demo\src" />
+      <recent name="C:\Users\Abhishek Lal George\Desktop\2311repo\2311-productivity-app\2311-productivity-app\demo\src\main\java\com\example\Components" />
+      <recent name="C:\Users\Abhishek Lal George\Desktop\2311repo\2311-productivity-app\2311-productivity-app\demo\src\main\java\com\example" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Application">
+    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.Application" />
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.Components.Main" />
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Components.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MusicPlayerWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.Components.MusicPlayerWindow" />
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Components.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Application" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.MusicPlayerWindow" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="012ec447-29fd-4b20-b2c7-3c7c10ae7f4a" name="Changes" comment="" />
+      <created>1711924063944</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1711924063944</updated>
+    </task>
+    <servers />
+  </component>
+</project>

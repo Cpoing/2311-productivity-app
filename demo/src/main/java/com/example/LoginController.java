@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * This class checkes if the user id and the password is matching. If matching
  * then user can access to the app
@@ -42,6 +44,8 @@ public class LoginController {
                 } catch (IllegalArgumentException e) {
                     actionTarget.setFill(javafx.scene.paint.Color.FIREBRICK);
                     actionTarget.setText("Login failed");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
         };
