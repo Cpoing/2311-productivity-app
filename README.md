@@ -22,5 +22,9 @@ Issues:
 - The Pomodoro timer stays open when the main application is closed. This issue was not able to be resolved this iteration as the timer opens up as a new application. 
 
 Getting Started:
-1. Clone the repository
+1. **Clone the repository**
 ```git clone https://github.com/Cpoing/2311-productivity-app.git```
+2. **Set up the database:**
+   Make sure you have PostgreSQL installed on your machine. Then go to the Tables section from Servers > PostgreSQL 16 > postgres > Schemas > public > Tables.
+   Make the tables login_table, notes, scores_table, and task_tables with the properties shown below.
+![login_table](https://github.com/Cpoing/2311-productivity-app/assets/118622427/4ecfc53f-706b-4306-a894-75ccd0e5de33)
