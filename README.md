@@ -28,3 +28,10 @@ Getting Started:
    Make sure you have PostgreSQL installed on your machine. Then go to the Tables section from Servers > PostgreSQL 16 > postgres > Schemas > public > Tables.
    Make the tables login_table, notes, scores_table, and task_tables with the properties shown below.
 ![login_table](https://github.com/Cpoing/2311-productivity-app/assets/118622427/4ecfc53f-706b-4306-a894-75ccd0e5de33)
+![image](https://github.com/Cpoing/2311-productivity-app/assets/118622427/c0def512-2639-424e-b521-9ccf4656ba55)
+![image](https://github.com/Cpoing/2311-productivity-app/assets/118622427/c878c7ef-0f85-45d3-81fe-aa84442fe1c7)
+![image](https://github.com/Cpoing/2311-productivity-app/assets/118622427/19850614-db46-46f3-8313-00b430a6a44d)
+   NOTE: in the notes table the number column's datatype is SERIAL not integer but it switches to integer after saving
+3. Open the DB.java file, under the public boolean init() method, change the password to the password used to open Postgresql.
+   ```String password = "your_password";```
+4. Download an mp3 file and open the music player button, it will prompt a file search and select the music file.
