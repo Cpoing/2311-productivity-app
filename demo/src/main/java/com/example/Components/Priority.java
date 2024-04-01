@@ -43,10 +43,17 @@ public class Priority {
         return priority;
     }
     
+    /**
+    * clearError is a method to clear any error message displayed.
+    */
     private void clearError() {
         error.setText("");
     }
-    
+    /**
+    * setError is a method to set an error message to be displayed.
+    * 
+    * @param errorMessage The error message to be displayed.
+    */
     public void setError(String errorMessage) {
         error.setText(errorMessage);
     }
