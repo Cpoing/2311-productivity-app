@@ -1,17 +1,33 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.example.Components.User;
 import com.example.Components.login;
+import com.example.DB.DB;
 
 public class loginTest {
+	private DB db;
+	private login log;
 
-	
+	@Before
+	public void init(){
+		this.db = new DB();
+		db.init();
+		this.log = new login();
+	}
+
+	@After
+	public void after(){
+		db.deleteLogin_table();
+	}
+
 	@Test
 	public void test_1() {
-		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("123", "thisisanapple");
 		log.register(user);
@@ -20,7 +36,6 @@ public class loginTest {
 	
 	@Test
 	public void test_2() {
-		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("thisis", "thisisanapple");
 		User user3 = new User("testing", "applesamsung");
@@ -32,12 +47,10 @@ public class loginTest {
 		log.register(user4);
 		log.register(user5);
 		assertEquals(5, log.size());
-		
 	}
 	
 	@Test
 	public void test_3() {
-		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("thisis", "thisisanapple");
 		User user3 = new User("testing", "applesamsung");
@@ -49,12 +62,10 @@ public class loginTest {
 		log.register(user4);
 		log.register(user5);
 		assertTrue(log.loginTo("hahahah", "fromyorkuniversity123"));
-		
 	}
 	
 	@Test
 	public void test_4() {
-		login log = new login();
 		User user = new User("123", "thisispineapple");
 		User user2 = new User("12", "thisisanapple");
 		log.register(user);
@@ -63,9 +74,8 @@ public class loginTest {
 	
 	@Test
 	public void test_5() {
-		login log = new login();
 		User user = new User("123", "thisispineapple");
-		assertThrows(IllegalArgumentException.class, ()-> log.loginTo("123", "thisispineapple"));
+		assertFalse(log.loginTo("123", "thisispineapple"));
 	}
 
 }

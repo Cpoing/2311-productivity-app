@@ -17,10 +17,15 @@ public class User {
 	 * @throws IllegalArgumentException is the exception thrown if the password length is less than 10 characters.
 	 */
 	public User(String username, String password) throws IllegalArgumentException {
-		this.username = username;
-		this.password = password;
+		if(password.length() < 10 || username.length() < 1){
+			throw new IllegalArgumentException();
+		} else {
+			this.username = username;
+			this.password = password;
+		}
 		
 	}
+
 	/**
 	 * getUsername is the method that retrieves a users' username as a String.
 	 * @return Users' userrname as a String.
@@ -28,6 +33,7 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
+	
 	/**
 	 * getPassword is the method that retrieves a users' password as a String.
 	 * @return Users' password as a String.
