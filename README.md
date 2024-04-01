@@ -36,5 +36,27 @@ Issues:
    ```String password = "your_password";```
 4. Download an mp3 file and open the music player button, it will prompt a file search and select the music file.
 
-
+**Architecture Sketch:**
 https://github.com/Cpoing/2311-productivity-app/blob/main/Architecture%20Sketch%20-%20ITR1.pdf
+
+**Big User Stories:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/Big%20User%20Stories.pdf
+
+**Group 6 Log Report:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/Group%206%20Log%20Report.pdf
+
+**ITR1 Planning Document:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/ITR1%20Planning%20Document.pdf
+
+**ITR2 Planning Document:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/ITR2%20Planning%20Document.pdf
+
+**ITR3 Planning Document:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/ITR3%20Planning%20Document.pdf
+
+**UML Diagram:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/UML%20Diagram%20.pdf
+
+**Vision Statement:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/Vision%20Statement.pdf
+
