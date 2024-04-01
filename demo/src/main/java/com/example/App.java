@@ -464,13 +464,21 @@ public class App {
         noteStage.setTitle("Notes");
         noteStage.show();
     }
-
+    /**
+     * Saves the note to the database.
+     * 
+     * @param note The note to be saved.
+     */
     private void saveNoteToDB(String note) {
         DB db = new DB();
         db.init();
         db.insertNote(this.username, note);
     }
-
+    /**
+     * Retrieves and opens the note from the database.
+     * 
+     * @param noteTextArea The TextArea to display the note.
+     */
     private void openNotesFromDB(TextArea noteTextArea) {
         DB db = new DB();
         db.init();
@@ -478,7 +486,11 @@ public class App {
         String notes = db.getNotes(this.username);
         noteTextArea.setText(notes);
     }
-
+    /**
+     * Populates the checklist with tasks retrieved from the database.
+     * 
+     * @param tasks The list of tasks to populate the checklist.
+     */
     private void populateChecklist(List<ChecklistItem> tasks) {
         // Populate the checklist with tasks
         for (ChecklistItem item : tasks) {

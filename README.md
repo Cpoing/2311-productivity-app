@@ -37,7 +37,11 @@ Issues:
    
 4. Open the DB.java file, under the public boolean init() method, change the password to the password used to open Postgresql.
    ```String password = "your_password";```
-5. Download an mp3 file and open the music player button, it will prompt a file search and select the music file.
+5. Run the application.java file to run the app.
+6. Register with a username and password that is 10 or more characters.
+7. Login using the same credentials. 
+
+Note: To use the music player, download an mp3 file and open the music player button, it will prompt a file search and select the music file.
 
 **Architecture Sketch:**
 https://github.com/Cpoing/2311-productivity-app/blob/main/Architecture%20Sketch%20-%20ITR1.pdf

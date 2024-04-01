@@ -17,17 +17,29 @@ import com.example.DB.DB;
 
 import javafx.application.Platform;
 
-
+/**
+ * ScoreChartWindow class represents a window displaying a line chart of scores over time.
+ * It extends Stage.
+ */
 public class ScoreChartWindow extends Stage {
     private ScoreCounter scores;
     private String id;
 
+    /**
+     * Constructor for ScoreChartWindow.
+     * 
+     * @param scores The ScoreCounter instance containing score data.
+     * @param id The user ID associated with the scores.
+     */
     public ScoreChartWindow(ScoreCounter scores, String id) {
         this.scores = scores;
         this.id = id;
         init();
     }
 
+    /**
+     * Initialization method to set up the line chart and scheduled updates.
+     */
     private void init() {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -53,16 +65,21 @@ public class ScoreChartWindow extends Stage {
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Integer random = scores.getCounter();
+            Integer random = scores.getCounter(); // Get current score
 
             Platform.runLater(() -> {
                 Date now = new Date();
                 series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), random));
                 saveScoreDataToDB(simpleDateFormat.format(now), random);
             });
-        }, 0, 1, TimeUnit.SECONDS);
+        }, 0, 1, TimeUnit.SECONDS); // Update every second
     }
-
+    /**
+     * Method to save score data to the database.
+     * 
+     * @param time The timestamp of the score.
+     * @param score The score value.
+     */
     private void saveScoreDataToDB(String time, Integer score) {
         DB db = new DB();
         db.init();
