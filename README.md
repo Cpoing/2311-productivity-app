@@ -67,3 +67,5 @@ https://github.com/Cpoing/2311-productivity-app/blob/main/UML%20Diagram%20.pdf
 **Vision Statement:**
 https://github.com/Cpoing/2311-productivity-app/blob/main/Vision%20Statement.pdf
 
+**Refactoring Document:**
+https://github.com/Cpoing/2311-productivity-app/blob/main/Refactoring%20Document.pdf
