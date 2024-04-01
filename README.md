@@ -21,7 +21,7 @@ Issues:
 - We were not able to solve the issue of users being able to make tasks without having to add a due date and users not being able to change due dates of existing tasks as we believed it to be an insignificant issue to fix for this iteration.
 - The Pomodoro timer stays open when the main application is closed. This issue was not able to be resolved this iteration as the timer opens up as a new application. 
 
-Getting Started:
+**Getting Started:**
 1. **Clone the repository**
 ```git clone https://github.com/Cpoing/2311-productivity-app.git```
 2. **Set up the database:**
