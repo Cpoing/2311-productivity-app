@@ -2,11 +2,14 @@ package com.example.DB;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.example.Components.ChecklistItem;
+import com.example.Components.ScoreCounter;
 
 import javafx.concurrent.Task;
 
@@ -291,4 +294,19 @@ public class DB {
             return 0;
         }
     }
+
+    public void insertScoreData(String id, String time, int score) {
+        try {
+            init();
+            String sql = "INSERT INTO scores_table (\"ID\", time, score) VALUES (?, CAST(? AS TIME), ?)";
+            prestatement = connection.prepareStatement(sql);
+            prestatement.setString(1, id);
+            prestatement.setString(2, time);
+            prestatement.setInt(3, score);
+            prestatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+      
 }
