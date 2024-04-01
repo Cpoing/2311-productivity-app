@@ -151,7 +151,7 @@ public class App {
         stage.setScene(scene);
         stage.show();
 
-        ScoreChartWindow scoreChartWindow = new ScoreChartWindow(score);
+        ScoreChartWindow scoreChartWindow = new ScoreChartWindow(score, this.username);
 
         Button openChartButton = new Button("Open Score Chart");
         openChartButton.setOnAction(event -> {
