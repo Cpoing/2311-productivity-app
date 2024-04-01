@@ -14,12 +14,21 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Notes is a class representing a stage for taking notes.
+ */
 public class Notes extends Stage{
     public String id;
 
+    /**
+     * Notes is the constructor for creating a Notes object with a specified user ID.
+     * 
+     * @param id The user ID associated with the notes.
+     */
     public Notes(String id) {
         this.id = id;
 
+        // Create UI elements
          TextArea noteTextArea = new TextArea();
          Button saveButton = new Button("Save");
          Button closeButton = new Button("Close");

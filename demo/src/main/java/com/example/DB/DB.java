@@ -147,6 +147,9 @@ public class DB {
         return 0;
     }
 
+    /**
+    * This method deletes all records from the login_table.
+    */
     public void deleteLogin_table(){
         try {
             init();
@@ -160,6 +163,12 @@ public class DB {
         }
     }
 
+    /**
+    * This method inserts a note associated with a user ID into the notes table.
+    * 
+    * @param id   The user ID.
+    * @param note The note to insert.
+    */
     public void insertNote(String id, String note) {
         StringBuffer sql = new StringBuffer();
         sql.append("INSERT INTO notes (\"ID\", \"note\")");
@@ -175,6 +184,12 @@ public class DB {
         }
     }
 
+    /**
+    * This method retrieves the most recent note associated with a user ID from the notes table.
+    * 
+    * @param id The user ID.
+    * @return The most recent note, or an empty string if no note is found.
+    */
     public String getNotes(String id) {
         try {
             init();
@@ -193,6 +208,17 @@ public class DB {
         }
     }
 
+    /**
+    * This method inserts a task into the task_table.
+    * 
+    * @param username    The username associated with the task.
+    * @param description The task description.
+    * @param dueDate     The due date of the task.
+    * @param dueTime     The due time of the task.
+    * @param priority    The priority of the task.
+    * @param isChecked   Whether the task is checked.
+    * @param onTime      Whether the task is on time.
+    */
     public void insertTask(String username, String description, LocalDate dueDate, LocalTime dueTime, String priority,
             boolean isChecked, boolean onTime) {
         try {
@@ -213,6 +239,16 @@ public class DB {
         }
     }
 
+    /**
+     * This method updates a task in the task_table.
+     * 
+     * @param username    The username associated with the task.
+     * @param description The task description.
+     * @param dueDate     The due date of the task.
+     * @param dueTime     The due time of the task.
+     * @param isChecked   Whether the task is checked.
+     * @param onTime      Whether the task is on time.
+     */
     public void updateTask(String username, String description, LocalDate dueDate, LocalTime dueTime, boolean isChecked,
             boolean onTime) {
         try {
@@ -237,6 +273,12 @@ public class DB {
         }
     }
 
+    /**
+     * This method retrieves tasks associated with a username from the task_table.
+     * 
+     * @param username The username associated with the tasks.
+     * @return A list of ChecklistItem objects representing tasks.
+     */
     public List<ChecklistItem> retrieveTasks(String username) {
         List<ChecklistItem> tasks = new ArrayList<>();
         try {
@@ -264,6 +306,12 @@ public class DB {
         return tasks;
     }
 
+    /**
+     * This method updates the score associated with a user ID in the login_table.
+     * 
+     * @param id    The user ID.
+     * @param score The score to update.
+     */
     public void updateScore(String id, int score) {
         try {
             init();
@@ -277,6 +325,12 @@ public class DB {
         }
     }
 
+    /**
+     * This method retrieves the score associated with a user ID from the login_table.
+     * 
+     * @param id The user ID.
+     * @return The score associated with the user ID.
+     */
     public int getScore(String id) {
         try {
             init();

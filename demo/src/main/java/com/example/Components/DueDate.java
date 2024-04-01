@@ -67,7 +67,12 @@ public class DueDate extends VBox {
         // Now, add the VBox containing date picker and time components to the parent VBox
         getChildren().addAll(dateTimeBox);
     }
-
+    
+/**
+ * getTime is the method that retrieves the selected time from the UI components and converts it to LocalTime.
+ * 
+ * @return The selected time as LocalTime.
+ */
     public LocalTime getTime() {
         int hour = hourComboBox.getValue();
         int minute = minuteComboBox.getValue();
@@ -83,7 +88,11 @@ public class DueDate extends VBox {
         
         return dueTime; // Ensure hour is within 0-23 range
     }
-
+/**
+ * DueDate is the constructor that initializes a DueDate object with a given date string.
+ * 
+ * @param dateString The date string in "YYYY/MM/DD" format.
+ */
     public DueDate(String dateString) {
         try {
             dueDate = LocalDate.parse(dateString, formatter);
@@ -99,7 +108,11 @@ public class DueDate extends VBox {
         return errorMessage;
     }
     
-
+/**
+ * isValid is the method that checks if the due date and time provided are valid.
+ * 
+ * @return True if the due date and time are valid, otherwise False.
+ */
     public LocalDate setDate(){
         dueDate = datePicker.getValue();
         return dueDate;
@@ -122,10 +135,20 @@ public class DueDate extends VBox {
         return false;
     }
 
-
+/**
+ * getDatePicker is the method that retrieves the DatePicker component associated with the DueDate.
+ * 
+ * @return The DatePicker component.
+ */
     public DatePicker getDatePicker() {
         return datePicker;
     }
+
+    /**
+ * getFormattedDate is the method that formats the due date into a human-readable string.
+ * 
+ * @return The formatted due date as a String.
+ */
     public String getFormattedDate() {
         LocalDate date = datePicker.getValue();
         if (date != null) {
