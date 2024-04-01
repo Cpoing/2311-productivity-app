@@ -11,15 +11,20 @@ public class UserTest {
 	public void test_1() {
 		assertThrows(IllegalArgumentException.class, ()-> new User("12345", "lessthan1"));
 	}
-	
+
 	@Test
 	public void test_2() {
+		assertThrows(IllegalArgumentException.class, ()-> new User("", "Morethan101"));
+	}
+	
+	@Test
+	public void test_3() {
 		User user = new User("12345", "Morethan101");
 		assertEquals("12345", user.getUsername());
 	}
 	
 	@Test
-	public void test_3() {
+	public void test_4() {
 		User user = new User("12345", "Morethan101");
 		assertEquals("Morethan101", user.getPassword());
 	}

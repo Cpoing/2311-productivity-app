@@ -39,7 +39,7 @@ public class DB {
     public boolean init() {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
-        String password = "hehe";
+        String password = "taehyun905";
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -142,6 +142,19 @@ public class DB {
             System.out.println("Failed to get number of users");
         }
         return 0;
+    }
+
+    public void deleteLogin_table(){
+        try {
+            init();
+            StringBuffer sql = new StringBuffer();
+            sql.append("DELETE FROM login_table");
+            prestatement = connection.prepareStatement(sql.toString());
+            prestatement.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void insertNote(String id, String note) {

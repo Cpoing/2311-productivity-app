@@ -69,7 +69,7 @@ public class login {
      * @return the number of the users.
      */
     public int size() {
-    	return userList.size();
+    	return db.getNumberofUsers();
     }
 
 }
